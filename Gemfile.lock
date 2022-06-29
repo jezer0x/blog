@@ -257,8 +257,12 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll-feed
+  jekyll-gist
   jekyll-include-cache
+  jekyll-paginate
   jekyll-remote-theme
+  jekyll-sitemap
   webrick (~> 1.7)
 
 BUNDLED WITH
