@@ -21,7 +21,7 @@ title_separator: "-"
 subtitle: # site tagline that appears below site title in masthead
 name: "Jezer0x"
 description: "An amazing website."
-domain: jezer0x.github.io
+domain: jezer0x-research.github.io
 url: https://jezer0x-research.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl: /jezer0x-research.github.io/ # the subpath of your site, e.g. "/blog"
 repository: jezer0x/jezer0x-research.github.io # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
