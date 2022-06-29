@@ -21,9 +21,10 @@ title_separator: "-"
 subtitle: # site tagline that appears below site title in masthead
 name: "Jezer0x"
 description: "An amazing website."
-url: # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl: # the subpath of your site, e.g. "/blog"
-repository: mmistakes/minimal-mistakes # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+domain: jezer0x.github.io
+url: https://jezer0x.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl: /jezer0x.github.io/ # the subpath of your site, e.g. "/blog"
+repository: jezer0x/jezer0x.github.io # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser: # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo: # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title: # overrides the website title displayed in the masthead, use " " for no title
@@ -191,11 +192,17 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 markdown: kramdown
 highlighter: rouge
 lsi: false
-excerpt_separator: "\n\n"
+safe: true
 incremental: false
+gist:
+  noscript: false
+source: .
+excerpt_separator: "\n\n"
 
 # Markdown Processing
 kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
   input: GFM
   hard_wrap: false
   auto_ids: true
