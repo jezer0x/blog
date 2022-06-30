@@ -3,7 +3,7 @@
 layout: single
 authors: 
  - Mad Neutrino
- - Saif
+ - Psyf
 tags: architecture
 ---
 
@@ -241,7 +241,6 @@ In the future, we’ll be looking at some concrete examples of L1s trying to sca
 
 Watch the space!
 
-## Footnotes 
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
 [^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg)
