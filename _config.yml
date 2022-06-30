@@ -197,6 +197,7 @@ gist:
   noscript: false
 source: .
 excerpt_separator: "\n\n"
+future: true
 
 # Markdown Processing
 kramdown:
