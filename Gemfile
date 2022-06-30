@@ -10,4 +10,5 @@ gem "jekyll-gist", group: :jekyll_plugins
 gem "jekyll-feed", group: :jekyll_plugins
 group :jekyll_plugins do
     gem "jekyll-archives"
+    gem "jekyll-target-blank"
 end
