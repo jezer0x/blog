@@ -1,8 +1,10 @@
 ---
+
 layout: single
 authors: 
  - Mad Neutrino
  - Saif
+tags: architecture
 ---
 
 ## Summary
@@ -18,6 +20,7 @@ Blockchains are hitting scaling bottlenecks as more dApps and users onboard. The
 > We wrote this article to synthesize the knowledge we gathered over the last few weeks and simplify it to a few fundamental concepts. We’ll keep our piece short and focus the discussion on scaling blockchains, with links to in-depth resources. Use this as a map if you’re new to the topic, or as a review after you’ve returned from the rabbit hole.
 > 
 > We intend to keep the sections updated as the field evolves, So check back from time to time (or subscribe!) if you want to keep up with how this space evolves.
+
 
 ## The Basics
 
