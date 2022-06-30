@@ -5,9 +5,12 @@ authors:
  - Mad Neutrino
  - Psyf
 tags: architecture
+header: 
+    overlay_image: https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop
+    caption: "[**Unsplash**](https://unsplash.com)"
+    show_overlay_excerpt: false
 ---
 
-## Summary
 Blockchains are hitting scaling bottlenecks as more dApps and users onboard. The challenge lies in keeping blockchains decentralized, secure, and energy-efficient as we scale. In this article, we discuss vertical scaling techniques such as block size and block frequency tweaks. We also discuss horizontal scaling techniques such as using multiple chains, Layer 2s, sharding, history expiry, data availability sampling, and proposer-builder separation. 
 
 > ⛔ **Prerequisites:**
