@@ -20,7 +20,7 @@ title: "Jezer0x Research"
 title_separator: "-"
 subtitle: # site tagline that appears below site title in masthead
 name: "Jezer0x"
-description: "An amazing website."
+description: "Crypto research and development."
 domain: jezer0x.github.io
 url: https://jezer0x.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 repository: jezer0x/jezer0x.github.io # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -231,6 +231,7 @@ plugins:
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-remote-theme
+  - octopress-littlefoot
 # mimic GitHub Pages with --safe
 whitelist:
   - jekyll-paginate

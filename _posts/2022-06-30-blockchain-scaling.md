@@ -1,7 +1,7 @@
 ---
 layout: single
 authors: 
- - Nish
+ - Mad Neutrino
  - Saif
 ---
 
