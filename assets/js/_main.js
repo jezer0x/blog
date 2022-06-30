@@ -135,5 +135,9 @@ $(function() {
   });
   
   // littlefoot init
-  littlefoot.littlefoot();
+  littlefoot.littlefoot({
+    activateOnHover: true,    
+    allowMultiple: false,
+    dismissOnUnhover: true,
+  });
 });
