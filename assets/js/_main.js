@@ -133,4 +133,7 @@ $(function() {
       $(this).append(anchor);
     }
   });
+  
+  // littlefoot init
+  littlefoot.littlefoot();
 });
