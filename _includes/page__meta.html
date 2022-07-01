@@ -45,9 +45,9 @@ document.show_date %}
     {% if authorCount == 1 %}
         by {{ page.authors | first }}
     {% else %}
-        by {% for author in page.authors %}
+        {% for author in page.authors %}
             {% if forloop.first %}
-            <a href="{{ author.link }}">{{ author.name }}</a>
+              by <a href="{{ author.link }}">{{ author.name }}</a>
             {% elsif forloop.last %}
                 and <a href="{{ author.link }}">{{ author.name }}</a>
             {% else %}
