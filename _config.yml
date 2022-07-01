@@ -21,8 +21,8 @@ title_separator: "|"
 subtitle: "Crypto Research and Development" # site tagline that appears below site title in masthead
 name: "Jezer0x"
 description: "Crypto Research and Development"
-domain: jezer0x.netlify.app
-url: https://jezer0x.netlify.app # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+domain: jezer0x.com
+url: https://jezer0x.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 repository: jezer0x/blog # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser: # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo: /assets/mascot.jpg # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
