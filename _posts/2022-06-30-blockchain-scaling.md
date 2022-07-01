@@ -116,7 +116,7 @@ Ultimately, this is a balancing act for protocols. There are a few Alt L1s takin
 So if we want the everyday person with a relatively modern consumer PC to be a validator, how do you scale? **The core idea is to distribute the work required across many participants such that each participant does less work *while keeping other participants in check*.** 
 
 
-💡 In 2022, some of these are cutting edge ideas and active areas of research. As such the implementations and search spaces are intertwined - you need the entire picture of scaling to understand how the different levers affect each other’s effectiveness and work together to ensure security and liveness of the network. For example, increasing the storage requirements by making calldata cheaper might hurt decentralization, but that can be coutnerbalanced by introducing history expiry at the same time.
+💡 In 2022, some of these are cutting edge ideas and active areas of research. As such the implementations and search spaces are intertwined - you need the entire picture of scaling to understand how the different levers affect each other’s effectiveness and work together to ensure security and liveness of the network. For example, increasing the storage requirements by making calldata cheaper might hurt decentralization, but that can be counterbalanced by introducing history expiry at the same time.
 {: .notice--warning}
 
 ### Rise of Layer 2s
