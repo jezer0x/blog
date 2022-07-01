@@ -43,7 +43,7 @@ Here is a quick high-level overview of how a Proof of Stake Blockchain works:[^p
     1. group one or more transactions together into a block
     2. do any computation required (in the case of smart contracts) and summarize the result.
     3. Propose this bundle to the other validators for inclusion at the head of the chain. 
-        1. Each validator checks if the computation is okay, and decides whether to accept the block. If there are multiple valid blocks for this round, they have a rule that they can execute independently to pick one.
+        1. Each validator checks if the computation is okay, and decides whether to accept the block.[^multipleblocks]
         2. Once the block is decided, if anyone broke the rules, they are penalized. This is called “slashing” and is also encoded as a transaction that validators have to vote on. 
 5. From 4cii, we see that the “truth” in a blockchain is determined by what most of the validators say is the truth.
     1. So, if most of the validators[^most] cheat the same way, consensus can still be achieved. And the minor who didnt cheat will be “lying” even if they followed the earlier rules. 
@@ -158,12 +158,7 @@ In short,
 
 
 
-Rollups are an active area of research[^zk], but they’ve been seeing [accelerating adoption](https://l2beat.com/) in the ecosystem thanks to their super low gas fees. Rollups networks also have additional vectors of attack such as:
-
-- Most L2 still use a Centralized Sequencer, which could censor some txes, or go down.
-    - Usually there is a way for users to bypass the sequencer and force a TX / group of txes via the L1 directly.
-- ~~Sequencer being unfair by ordering transactions as they want to extract MEV [Maximal Extractable Value]~~
-    - ~~Active area of research; we’ll discuss this later in a section below~~
+Rollups are an active area of research[^zk], but they’ve been seeing [accelerating adoption](https://l2beat.com/) in the ecosystem thanks to their super low gas fees. Rollups also have additional vectors of attack. The centralized sequencer could censors someone, deprioritize some transactions, or go down due to bugs (or be taken down maliciously).[^bypass]
 
 To facilitate the rise of L2s, L1s like Ethereum are [considering providing special transaction types called “Blobs” that are cheaper than regular transaction types](https://www.eip4844.com/).[^eip4488] They can be cheaper because we know that the blob data doesn’t need to be executed by the L1 (since the L2 executes it). The L1 validators need not process / validate this data in any way. They just include it in the block as is, apply compression techniques, and (potentially) discard the data after a time period, which all translates to less resource demand on the validator.
 
@@ -238,7 +233,7 @@ The problem with this approach is fragmentation of liquidity and loss of composa
 |:--:| 
 | *source: [mapofzones.com](http://mapofzones.com/)* |
 
-However, bootstrapping the security of a new chain is a difficult problem. Avalanche and Polkadot are trying to find a middle ground, where they have multiple chains which share security. In Avalanche, the sub-chains have the option of using their own validators to secure the subchain. While the subchain validators will also have to validate the main chain, they dont have to validate the other subchains which helps with scaling. Polkadot has a similar system but the parachains are more closely tied to the parent chain.
+However, bootstrapping the security of a new chain is a difficult problem. Avalanche and Polkadot are trying to find a middle ground, where they have multiple chains which share security. In Avalanche, the Custom Chains built on top of the P-Chain have the option of using their own validator set, or delegating the security to a consenting Subnet[^subnet]. Every Subnet must validate the Main Chain, but they can decide which Custom Chains to validate. Polkadot’s Relay Chain provide the Parachains with Data Availability and Cross-Chain Messaging.
 
 ## Conclusion
 
@@ -247,7 +242,7 @@ You should now have a good understanding of various techniques protocols are usi
 In the future, we’ll be looking at some concrete examples of L1s trying to scale their ecosystems. This series should include the likes of Ethereum, Cosmos, Celestia, Polkadot, Avalanche, Solana and more. Watch the space!
 
 Follow us on [Twitter](https://twitter.com/jezer0x) for updates. \
-Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together. 
+Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
@@ -335,3 +330,7 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
      - Reverse the process to get your BTC back on Ethereum.
 
     The Third Party is the single point of failure. We’ve seen quite a few hacks of these kinds of bridges since these become honeypots for attackers. Once the funds are stolen, you can no longer redeem the Wrapped asset 1:1 for the native one.
+
+[^bypass]: Usually there is a way for users to bypass the sequencer and force a TX / group of txes via the L1 directly.
+[^multipleblocks]: If there are multiple valid blocks for this round, they have a rule that they can execute independently to pick one.
+[^subnet]: subset of validators with one or more common property
