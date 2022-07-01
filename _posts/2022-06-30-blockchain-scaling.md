@@ -4,9 +4,9 @@ layout: single
 authors: 
  - name: MadNeutrino
    link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
- - name: psyf
+ - name: Psyf
    link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-tags: architecture
+tags: Architecture
 header: 
     overlay_image: https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop
     caption: "[**Unsplash**](https://unsplash.com)"
@@ -20,11 +20,11 @@ Blockchains are hitting scaling bottlenecks as more dApps and users onboard. The
 > - How Smart Contracts work and how nodes make Ethereum blocks.[^jordan]
 {: .notice--warning}
 
-> 👉🏽 **How should you use this article?**
-> 
-> We wrote this article to synthesize the knowledge we gathered over the last few weeks and simplify it to a few fundamental concepts. We’ll keep our piece short and focus the discussion on scaling blockchains, with links to in-depth resources. Use this as a map if you’re new to the topic, or as a review after you’ve returned from the rabbit hole.
-> 
-> We intend to keep the sections updated as the field evolves, So check back from time to time (or subscribe!) if you want to keep up with how this space evolves.
+👉🏽 **How should you use this article?** \
+\
+We wrote this article to synthesize the knowledge we gathered over the last few weeks and simplify it to a few fundamental concepts. We’ll keep our piece short and focus the discussion on scaling blockchains, with links to in-depth resources. Use this as a map if you’re new to the topic, or as a review after you’ve returned from the rabbit hole. \
+\
+We intend to keep the sections updated as the field evolves, So check back from time to time (or subscribe!) if you want to keep up with how this space evolves.
 {: .notice--info}
 
 ## The Basics
@@ -244,9 +244,10 @@ However, bootstrapping the security of a new chain is a difficult problem. Avala
 
 You should now have a good understanding of various techniques protocols are using to scale blockchains. 
 
-In the future, we’ll be looking at some concrete examples of L1s trying to scale their ecosystems. This series should include the likes of Ethereum, Cosmos, Celestia, Polkadot, Avalanche, Solana and more. Subscribe if you want to catch our analysis.
+In the future, we’ll be looking at some concrete examples of L1s trying to scale their ecosystems. This series should include the likes of Ethereum, Cosmos, Celestia, Polkadot, Avalanche, Solana and more. Watch the space!
 
-Watch the space!
+Follow us on [Twitter](https://twitter.com/jezer0x) for updates. \
+Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together. 
 
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
