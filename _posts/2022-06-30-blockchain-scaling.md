@@ -5,7 +5,9 @@ authors:
  - name: MadNeutrino
    link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
  - name: Psyf
-   link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+   link: https://twitter.com/psyf01
+ - name: Krenzx
+   link: https://twitter.com/krenzx
 tags: Architecture
 header: 
     overlay_image: https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop
@@ -74,7 +76,7 @@ Assuming more and more use cases are built on top of blockchains[^usecases], it 
 
 However, we see the gas fees in Ethereum already become prohibitively expensive for the average user when there’s a sudden spike in interest in a particular protocol. We’ve seen some low-fee blockchains become clogged or go down when they encounter such spikes too. 
 
-The problem will only get worse as more users and developers onboard the Web3 ecosystem. 
+The problem will only get worse as more users and developers onboard the Web3 ecosystem.[^tpscompare]
 
 ## Scaling Computer Systems
 
@@ -84,6 +86,8 @@ In computer science, there are two main approaches to scaling:
     1. As you scale blockchains vertically, they become more centralized since the minimum requirements for running a node increase. Thus, we see highly specialized computers dominate the share of validators.[^asics]
 2. **Horizontally:** Add more nodes and split the work between them. Web2 systems generally evolved this way to distribute web traffic evenly between their centralized servers and databases. The amount of coordination overhead incurred by the system depends upon the number of nodes[^coordination] and how tightly controlled the environment is.[^control] 
     1. For decentralization in Web3, blockchains need to scale horizontally without making strict assumptions about network topology (e.g. maximum latency) and network participants (e.g. minimum system specifications). Good behavior has to be coordinated in this trustless environment using asymmetric encryption and game theoretic incentive mechanisms[^sticks]
+
+![https://www.pc-freak.net/blog/vertical-horizontal-server-services-scaling-vertical-horizontal-hardware-scaling/](../assets/2022-06-30-blockchain-scaling/scaling.png)
 
 We can start to see a fundamental tension between scaling and decentralization. This tension,  coined as the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)” by Vitalik Buterin, underlies all conversations around scaling.
 
@@ -106,10 +110,11 @@ Let’s assume we have a chain that produces a block every 10s, and every block 
 This maximum limit is called a **maximum block size**. Why do we have such a limit? If everyone who wants to include a transaction in a block gets to include it, it might not be possible to process it in 10 seconds. So we need some kind of limit to ensure whoever is producing a block can actually do it in 10 seconds. The way people include their transaction over others is by getting into an auction for the ***blockspace***, by paying a higher amount for a unit of **gas**.[^gas]
 
 If we increased the maximum blocksize to 200 transactions, more transactions could be included in each block. However, if the block size is too large only those with powerful computers will be able to get the block ready within 10s.[^blocksizewar]
+![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)
 
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
-Ultimately, this is a balancing act for protocols. There are a few Alt L1s taking a vertical scaling approach, but Ethereum and Bitcoin are resisting such changes. On the other hand, Binance Smart Chain maintainers don’t care if the requirements are high, so they increase the blocksize as demand increases. Since they use Proof Of Authority,[^permission] they only select validators with powerful setups capable of handling a block every 3 seconds, and the keep increasing the blocksize as the demand increases. Solana does something similar. Anyone can run a validator on Solana, given they can meet the high bar for minimum specifications. Their hypothesis is that computers will get faster with time, so we can afford to have system requirements which are considered heavy today. They also allow have neat tricks like parallel processing of transactions to speed up block computation.
+Ultimately, this is a balancing act for protocols. There are a few Alt L1s taking a vertical scaling approach, but Ethereum and Bitcoin are resisting such changes. On the other hand, Binance Smart Chain maintainers don’t care if the requirements are high, so they increase the blocksize as demand increases. Since they use Proof Of Authority,[^permission] they only select validators with powerful setups capable of handling a block every 3 seconds, and the keep increasing the blocksize as the demand increases. Solana does something similar - anyone can run a validator on Solana, given they can meet the high bar for minimum specifications to keep up with ~400ms blocktime. Their hypothesis is that computers will get faster with time, so we can afford to have system requirements which are considered heavy today.[^solana]
 
 ## Horizontal Scaling - Don’t Give Up On Decentralization!
 
@@ -123,11 +128,13 @@ So if we want the everyday person with a relatively modern consumer PC to be a v
 
 A Layer 2 (L2) is a setup where some of the computation is pre-processed by a different set of nodes so the validators on the L1 dont have to, and then post the end result to the L1.[^offchain] This can take various forms depends on what is processed by L2 and what is finally added to the L1.
 
-#### HTLC (Hash Time Locked Contract a.k.a State Channel)
+#### Hash Time Locked Contract (HTLC / State Channel)
 
-A state channel is simple. Let’s suppose you go to your neighborhood coffee shop every morning and pay in Bitcoin. It’s cool, but cumbersome[^cumbersome] and expensive.[^expensive] What if you could open a “channel” with the coffee shop and sign a message that says you authorize the transfer of 1 BTC to them. But you only give it to them off-chain and don’t broadcast it to the network. The second time you come around, you sign a new message saying you will be transferring 2 BTC to them instead, and so on. At the end of the month, when you owe the shop 30BTC, the shop can send your latest signed message on to the chain and collect their 30 BTC. We’ve now replaced 30 payments over a period of time into 1 settlement TX on-chain.
+A state channel is simple. Let’s take a payment channel to understand the concept. Suppose you go to your neighborhood coffee shop every morning and pay in Bitcoin. It’s cool, but cumbersome[^cumbersome] and expensive.[^expensive] What if you could open a “channel” with the coffee shop and sign a message that says you authorize the transfer of 1 BTC to them. But you only give it to them off-chain and don’t broadcast it to the network. The second time you come around, you sign a new message saying you will be transferring 2 BTC to them instead, and so on. At the end of the month, when you owe the shop 30BTC, the shop can send your latest signed message on to the chain and collect their 30 BTC. We’ve now replaced 30 payments over a period of time into 1 settlement TX on-chain.
 
 An example of such an L2 is the [Bitcoin Lightning Network](https://medium.com/geekculture/bitcoins-lightning-network-explained-298c6aafe117).
+
+![lightning-network.png](../assets/2022-06-30-blockchain-scaling/lightning-network.png)
 
 #### Plasma
 
@@ -142,6 +149,11 @@ Other such Layer 2 solutions include Plasma, where a separate network[^network] 
 
 Recently, rollups are getting a lot of attention. Rollups are blockchains on top of blockchains. The main difference between a plasma and a rollup is that the entire rollup can be reconstructed from the parent chain. Whereas in Plasma, most of the data is on the Plasma chain. The main chain only serves to keep the Plasma chain accountable. 
 
+| ![rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png) |
+|:--:| 
+| *source: [https://vitalik.ca/general/2021/01/05/rollup.html](https://vitalik.ca/general/2021/01/05/rollup.html)* |
+
+
 In short,
 
 - Rollups provide a Fair Sequencer (currently a centralized server) which orders the TXes
@@ -152,11 +164,7 @@ In short,
     - If it’s a Zero-Knowledge Rollup, the Smart Contract verifies the validity of the batch of transactions and correct state transition using some fancy mathemagic.
     - If it’s an optimistic rollup, the smart contract doesn’t do anything immediately. It marks this commitment as “pending” for a few days of challenge period, during which anyone can dispute the commit by submitting a fraud-proof.
 
-| ![rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png) |
-|:--:| 
-| *source: [https://vitalik.ca/general/2021/01/05/rollup.html](https://vitalik.ca/general/2021/01/05/rollup.html)* |
-
-
+![https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html](../assets/2022-06-30-blockchain-scaling/rollups.jpeg)
 
 Rollups are an active area of research[^zk], but they’ve been seeing [accelerating adoption](https://l2beat.com/) in the ecosystem thanks to their super low gas fees. Rollups also have additional vectors of attack. The centralized sequencer could censors someone, deprioritize some transactions, or go down due to bugs (or be taken down maliciously).[^bypass]
 
@@ -171,6 +179,8 @@ If you’re spinning up a new node, you should be able to fast-sync to the lates
 The idea in sharding is to split the validators into groups, and have them check only parts of the blockchain. Think of it as moving from a single-core computer to a multi-core computer that can process transactions in parallel.[^shard] But this can get quite hard to coordinate - especially if a transaction includes interactions in multiple shards. Ziliqa, Elrond utilize sharding to scale, but we don’t know enough detail to comment further. 
 
 Execution Sharding was also part of the original Ethereum scaling roadmap.[^eth2] Since then, Ethereum has pivoted to a rollup-centric roadmap. The bet is that Rollups will become the main consumer of blockspace on the L1. We need to be able to let the L2s do that without massive penalties, and increase how much data they can post on the block. So Ethereum is focusing on data sharding to keep the storage and network requirements of validators low so they can each verify only part of the block, and collectively verify the whole block (more on this on the PBS and DAS section).[^shardeddb]
+
+![https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/](../assets/2022-06-30-blockchain-scaling/Shards.png)
 
 ### Make it Cheaper to Check if Something is Wrong
 
@@ -190,13 +200,17 @@ This solution also helps in with another centralizing force - [Maximal Extractab
 
 With a lot of MEV opportunities floating around (e.g. DEX price discrepancies), miners run complex algorithms to search for these opportunities. And the miners who can come up with the best MEV strategies can get better returns over time, than those who cant. This acts as a centralizing force where the smaller miners get out-competed since the large miners are willing to work for lesser block rewards. We might even see validators outsourcing this function to big farms that specialize in extracting MEV.
 
-Protocols have to innovate MEV mitigation mechanisms to push back.[^flashbot] This is especially important for Ethereum, since issuance to validators after the merge will drop. Validators' income sources will revolve around priority fees, incentivizing MEV.
+Protocols have to innovate MEV mitigation mechanisms to push back. This is especially important for Ethereum, since issuance to validators after the merge will drop. Validators' income sources will revolve around priority fees, incentivizing MEV.
 
 With PBS, the builder isn’t the one proposing the block, so as long there is more than one builder, they would need to bid for the the proposers to choose their block, and hence will share some of their MEV gains with the proposers to make sure they get included. We’ve effectively shared the rewards (Priority fees, MEV etc) and incentivized everyone to cooperate.[^pbsworkflow]
 
+While PBS implementation is quite a ways off, Flashbots is helping to tackle the problem in the meantime with products like mev-boost, essentially creating an off-chain standard for democratizing MEV.
+
+![https://github.com/flashbots/mev-boost](../assets/2022-06-30-blockchain-scaling/mev-boost.png)
+
 #### Data Availability Sampling (DAS)
 
-PBS concedes the fact that block production will move to centralized entities and codifies defenses against malicious history rewrites and future interference. This is done by ensuring Light Proposers can keep the the Beefy Builders accountable. Recall in “Vertical Scaling” we talked about how increasing blocksize will decrease decentralization. PBS aims to reach the holy grail - but we need DAS to get there.  
+PBS concedes the fact that [block production will move to centralized entities](https://vitalik.ca/general/2021/12/06/endgame.html) and codifies defenses against malicious history rewrites and future interference. This is done by ensuring Light Proposers can keep the the Beefy Builders accountable. Recall in “Vertical Scaling” we talked about how increasing blocksize will decrease decentralization. PBS aims to reach the holy grail - but we need DAS to get there.  
 
 Here, we further split the idea of validating a block into 2 parts: 
 
@@ -214,13 +228,17 @@ The basic idea is as follows:
 2. All the validators in the network do the same. 
 3. Validators can reconstruct the block (by talking to each other and gathering missing pieces) if need be[^datasharding]
 
-The problem with this naive solution is that a Producer can destroy trust in the entire system if they hide *just* 1 byte of data. To solve that problem, Producer does something called erasure coding before Step 1. Erasure coding is a technique to “stretch” the data with redundancy. As long as **any** 50% of the stretched data is available, 100% of the original data can be reconstructed. To hide even a tiny part of the original dataset, the producer has to hide > 50% of this stretched dataset. Which means that if you ask for 10 random samples from the stretch-set[^datasize], and all 10 were available, you can be 99.9%[^calc] sure that the original dataset is available in full.[^assume][^erasure]
 
-Another nice property we gain from DAS is that the more decentralized the validator network, the bigger the blocksizes can be safely.[^clock] If you want to increase your confidence, just sample more parts! Holy grail!?[^lightnode]
+The problem with this naive solution is that a Producer can destroy trust in the entire system if they hide *just* 1 byte of data. To solve that problem, Producer does something called erasure coding before Step 1. Erasure coding is a technique to “stretch” the data with redundancy. As long as **any** 50% of the stretched data is available, 100% of the original data can be reconstructed. To hide even a tiny part of the original dataset, the producer has to hide > 50% of this stretched dataset. Which means that if you ask for 10 random samples from the stretch-set[^datasize], and all 10 were available, you can be 99.9%[^calc] sure that the original dataset is available in full.[^assume][^erasure]
 
 | ![danksharding.png](../assets/2022-06-30-blockchain-scaling/danksharding.png) |
 |:--:| 
 | *source: [https://members.delphidigital.io/reports/the-hitchhikers-guide-to-ethereum](https://members.delphidigital.io/reports/the-hitchhikers-guide-to-ethereum)* |
+
+Another nice property we gain from DAS is that the more decentralized the validator network, the bigger the blocksizes can be safely.[^clock] If you want to increase your confidence, just sample more parts! Holy grail!?[^lightnode]
+
+![das_meme](../assets/2022-06-30-blockchain-scaling/das_meme.jpeg)
+
 
 
 ### The Multi-Chain Thesis
@@ -298,7 +316,6 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^darkforest]: 
     To see MEV in [action](https://www.theancientbabylonians.com/a-primer-to-flashbots-and-mevs-the-dark-forest-of-ethereum/), you can create a smart contract, fund it with ETH and then have a public call that gives you back the ether. ***Someone*** will inject a tx before yours with a higher gas fee so it gets picked ahead of your tx. By the time your tx tries to get the ETH, the contract will already be empty. This ***someone*** can be a miner, in which case, they don’t even need to pay high gas fees. What’s protecting you from being censored is that the miner can’t be certain that they will be the first ones to create a block. But if all the miners can get more money from front-running you, then your tx will be delayed and it becomes a form of soft-censorship.
 
-[^flashbot]: in the meantime, 3rd parties like flashbots are helping to democratize MEV
 [^pbsworkflow]: 
     The workflow with PBS may look like as follows: 
     1. Proposers can receive TXs from users, put them in the mempool and give Builders the list of transactions to build blocks out of.
@@ -334,3 +351,5 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^bypass]: Usually there is a way for users to bypass the sequencer and force a TX / group of txes via the L1 directly.
 [^multipleblocks]: If there are multiple valid blocks for this round, they have a rule that they can execute independently to pick one.
 [^subnet]: subset of validators with one or more common property
+[^solana]: The Solana Sealevel VM is also is also heavily optimized to make us of GPUs and multi-core processing to execute blocks quickly. Network propagation of packets is also similarly optimized. These techniques could arguably used in other blockchains as well, but they will come at the expense of inclusivity
+[^tpscompare]: You can see the alleged TPS of various chains [here](https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/).
