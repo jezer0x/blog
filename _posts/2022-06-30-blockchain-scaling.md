@@ -78,6 +78,8 @@ However, we see the gas fees in Ethereum already become prohibitively expensive 
 
 The problem will only get worse as more users and developers onboard the Web3 ecosystem.[^tpscompare]
 
+![wtf](../assets/2022-06-30-blockchain-scaling/gas_prices.gif)
+
 ## Scaling Computer Systems
 
 In computer science, there are two main approaches to scaling:
@@ -115,6 +117,8 @@ If we increased the maximum blocksize to 200 transactions, more transactions cou
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
 Ultimately, this is a balancing act for protocols. There are a few Alt L1s taking a vertical scaling approach, but Ethereum and Bitcoin are resisting such changes. On the other hand, Binance Smart Chain maintainers don’t care if the requirements are high, so they increase the blocksize as demand increases. Since they use Proof Of Authority,[^permission] they only select validators with powerful setups capable of handling a block every 3 seconds, and the keep increasing the blocksize as the demand increases. Solana does something similar - anyone can run a validator on Solana, given they can meet the high bar for minimum specifications to keep up with ~400ms blocktime. Their hypothesis is that computers will get faster with time, so we can afford to have system requirements which are considered heavy today.[^solana]
+
+![sol_meme.jpg](../assets/2022-06-30-blockchain-scaling/solana.jpg)
 
 ## Horizontal Scaling - Don’t Give Up On Decentralization!
 
@@ -262,6 +266,7 @@ In the future, we’ll be looking at some concrete examples of L1s trying to sca
 Follow us on [Twitter](https://twitter.com/jezer0x) for updates. \
 Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 
+![proud.gif](../assets/2022-06-30-blockchain-scaling/proudofyou.gif)
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
 [^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg)
