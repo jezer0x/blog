@@ -138,6 +138,6 @@ $(function() {
   littlefoot.littlefoot({
     allowMultiple: false,
     buttonTemplate:
-      '<button aria-label="Footnote <% number %>" class="littlefoot__button" id="<% reference %>" style="border-radius:50%; background-color:#f21368; border:none; font-size:15px; color:white; font-weight:bold; float:right"/> <% number %> </button>',
+      '<button aria-label="Footnote <% number %>" class="littlefoot__button" id="<% reference %>" style="border-radius:50%; background-color:#f21368; border:none; font-size:12px; color:white; font-weight:bold; float:right"/> <% number %> </button>',
   });
 });
