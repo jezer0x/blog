@@ -66,9 +66,7 @@ In short, **we want to add as much data as possible every second.**[^TPS]
 
 Over the last few years, we’ve seen more and more use cases being built on top of public blockchains. If we look at the Ethereum network, the number of transactions per day has skyrocketed from ~10k/day in Jan 2016 to ~1M/day in Jun 2022 - a 10x increase.
 
-| ![defigrowth.png](../assets/2022-06-30-blockchain-scaling/defigrowth.png) |
-|:--:| 
-| *source: [etherscan.io](http://etherscan.io/)* |
+[![defigrowth.png](../assets/2022-06-30-blockchain-scaling/defigrowth.png)](https://etherscan.io){: .align-center}  
 
 The number of active wallets per day on Ethereum in June 2022 is about [700k](https://bitinfocharts.com/comparison/ethereum-activeaddresses.html#alltime).[^web3now]
 
@@ -113,7 +111,7 @@ This maximum limit is called a **maximum block size**. Why do we have such a lim
 
 If we increased the maximum blocksize to 200 transactions, more transactions could be included in each block. However, if the block size is too large only those with powerful computers will be able to get the block ready within 10s.[^blocksizewar]
 
-![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png){: .align-center}
+[![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)](bitinfocharts.com){: .align-center }
 
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
@@ -145,19 +143,14 @@ An example of such an L2 is the [Bitcoin Lightning Network](https://medium.com/g
 
 Other such Layer 2 solutions include Plasma, where a separate network[^network] can periodically commit the state on L1.
 
-| ![plasma.png](../assets/2022-06-30-blockchain-scaling/plasma.png) |
-|:--:| 
-| *source: [https://polygon.technology/solutions/polygon-pos/](https://polygon.technology/solutions/polygon-pos/)* |
+[![plasma.png](../assets/2022-06-30-blockchain-scaling/plasma.png)](https://polygon.technology/solutions/polygon-pos/){: .align-center}
 
 
 #### Rollups
 
 Recently, rollups are getting a lot of attention. Rollups are blockchains on top of blockchains. The main difference between a plasma and a rollup is that the entire rollup can be reconstructed from the parent chain. Whereas in Plasma, most of the data is on the Plasma chain. The main chain only serves to keep the Plasma chain accountable. 
 
-| ![rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png) |
-|:--:| 
-| *source: [https://vitalik.ca/general/2021/01/05/rollup.html](https://vitalik.ca/general/2021/01/05/rollup.html)* |
-
+[![rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png)](https://vitalik.ca/general/2021/01/05/rollup.html){: .align-center}
 
 In short,
 
@@ -169,7 +162,7 @@ In short,
     - If it’s a Zero-Knowledge Rollup, the Smart Contract verifies the validity of the batch of transactions and correct state transition using some fancy mathemagic.
     - If it’s an optimistic rollup, the smart contract doesn’t do anything immediately. It marks this commitment as “pending” for a few days of challenge period, during which anyone can dispute the commit by submitting a fraud-proof.
 
-![https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html](../assets/2022-06-30-blockchain-scaling/rollups.jpeg){: .align-center}
+[![rollups.png](../assets/2022-06-30-blockchain-scaling/rollups.jpeg)](https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html){: .align-center}
 
 Rollups are an active area of research[^zk], but they’ve been seeing [accelerating adoption](https://l2beat.com/) in the ecosystem thanks to their super low gas fees. Rollups also have additional vectors of attack. The centralized sequencer could censors someone, deprioritize some transactions, or go down due to bugs (or be taken down maliciously).[^bypass]
 
@@ -185,7 +178,7 @@ The idea in sharding is to split the validators into groups, and have them check
 
 Execution Sharding was also part of the original Ethereum scaling roadmap.[^eth2] Since then, Ethereum has pivoted to a rollup-centric roadmap. The bet is that Rollups will become the main consumer of blockspace on the L1. We need to be able to let the L2s do that without massive penalties, and increase how much data they can post on the block. So Ethereum is focusing on data sharding to keep the storage and network requirements of validators low so they can each verify only part of the block, and collectively verify the whole block (more on this on the PBS and DAS section).[^shardeddb]
 
-![https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/](../assets/2022-06-30-blockchain-scaling/Shards.png){: .align-center}
+[![shards](../assets/2022-06-30-blockchain-scaling/Shards.png)](https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/){: .align-center}
 
 ### Make it Cheaper to Check if Something is Wrong
 
@@ -211,7 +204,7 @@ With PBS, the builder isn’t the one proposing the block, so as long there is m
 
 While PBS implementation is quite a ways off, Flashbots is helping to tackle the problem in the meantime with products like mev-boost, essentially creating an off-chain standard for democratizing MEV.
 
-![https://github.com/flashbots/mev-boost](../assets/2022-06-30-blockchain-scaling/mev-boost.png){: .align-center}
+[![mev-boost](../assets/2022-06-30-blockchain-scaling/mev-boost.png)](https://github.com/flashbots/mev-boost){: .align-center}
 
 #### Data Availability Sampling (DAS)
 
@@ -236,9 +229,7 @@ The basic idea is as follows:
 
 The problem with this naive solution is that a Producer can destroy trust in the entire system if they hide *just* 1 byte of data. To solve that problem, Producer does something called erasure coding before Step 1. Erasure coding is a technique to “stretch” the data with redundancy. As long as **any** 50% of the stretched data is available, 100% of the original data can be reconstructed. To hide even a tiny part of the original dataset, the producer has to hide > 50% of this stretched dataset. Which means that if you ask for 10 random samples from the stretch-set[^datasize], and all 10 were available, you can be 99.9%[^calc] sure that the original dataset is available in full.[^assume][^erasure]
 
-| ![danksharding.png](../assets/2022-06-30-blockchain-scaling/danksharding.png) |
-|:--:| 
-| *source: [https://members.delphidigital.io/reports/the-hitchhikers-guide-to-ethereum](https://members.delphidigital.io/reports/the-hitchhikers-guide-to-ethereum)* |
+[![danksharding.png](../assets/2022-06-30-blockchain-scaling/danksharding.png)](https://members.delphidigital.io/reports/the-hitchhikers-guide-to-ethereum){: .align-center}
 
 Another nice property we gain from DAS is that the more decentralized the validator network, the bigger the blocksizes can be safely.[^clock] If you want to increase your confidence, just sample more parts! Holy grail!?[^lightnode]
 
@@ -253,9 +244,7 @@ Let’s create more blockchains! Each chain has their own set of validators with
 
 The problem with this approach is fragmentation of liquidity and loss of composability. Interoperability between different chains is not a solved problem.[^bridges] The Cosmos ecosystem has been working on these cross-chain problems for quite some time. They’ve come up with a generalized messaging protocol called the “Inter Blockchain Communication” (IBC). They want anyone to be able to spin up and customize a chain easily using open source projects like Tendermint Core, CosmosSDK, Ignite CLI. In the Cosmos model, the validator sets are independent and don’t keep a check on the others. Each validator set can be small because the work is now split between the blockchains. 
 
-| ![mapofzones.gif](../assets/2022-06-30-blockchain-scaling/mapofzones.gif) |
-|:--:| 
-| *source: [mapofzones.com](http://mapofzones.com/)* |
+[![mapofzones.gif](../assets/2022-06-30-blockchain-scaling/mapofzones.gif)](http://mapofzones.com/){: .align-center }
 
 However, bootstrapping the security of a new chain is a difficult problem. Avalanche and Polkadot are trying to find a middle ground, where they have multiple chains which share security. In Avalanche, the Custom Chains built on top of the P-Chain have the option of using their own validator set, or delegating the security to a consenting Subnet[^subnet]. Every Subnet must validate the Main Chain, but they can decide which Custom Chains to validate. Polkadot’s Relay Chain provide the Parachains with Data Availability and Cross-Chain Messaging.
 
