@@ -78,8 +78,7 @@ However, we see the gas fees in Ethereum already become prohibitively expensive 
 
 The problem will only get worse as more users and developers onboard the Web3 ecosystem.[^tpscompare]
 
-{: style="text-align: center"}
-![wtf](../assets/2022-06-30-blockchain-scaling/gas_prices.gif)
+![wtf](../assets/2022-06-30-blockchain-scaling/gas_prices.gif){: .align-center width="500px"}
 
 ## Scaling Computer Systems
 
@@ -90,8 +89,7 @@ In computer science, there are two main approaches to scaling:
 2. **Horizontally:** Add more nodes and split the work between them. Web2 systems generally evolved this way to distribute web traffic evenly between their centralized servers and databases. The amount of coordination overhead incurred by the system depends upon the number of nodes[^coordination] and how tightly controlled the environment is.[^control] 
     1. For decentralization in Web3, blockchains need to scale horizontally without making strict assumptions about network topology (e.g. maximum latency) and network participants (e.g. minimum system specifications). Good behavior has to be coordinated in this trustless environment using asymmetric encryption and game theoretic incentive mechanisms[^sticks]
 
-{: style="text-align: center"}
-![https://www.pc-freak.net/blog/vertical-horizontal-server-services-scaling-vertical-horizontal-hardware-scaling/](../assets/2022-06-30-blockchain-scaling/scaling.png)
+[![scaling](../assets/2022-06-30-blockchain-scaling/scaling.png)](https://www.pc-freak.net/blog/vertical-horizontal-server-services-scaling-vertical-horizontal-hardware-scaling/){: .align-center}
 
 We can start to see a fundamental tension between scaling and decentralization. This tension,  coined as the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)” by Vitalik Buterin, underlies all conversations around scaling.
 
@@ -115,15 +113,13 @@ This maximum limit is called a **maximum block size**. Why do we have such a lim
 
 If we increased the maximum blocksize to 200 transactions, more transactions could be included in each block. However, if the block size is too large only those with powerful computers will be able to get the block ready within 10s.[^blocksizewar]
 
-{: style="text-align: center"}
-![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)
+![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png){: .align-center}
 
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
 Ultimately, this is a balancing act for protocols. There are a few Alt L1s taking a vertical scaling approach, but Ethereum and Bitcoin are resisting such changes. On the other hand, Binance Smart Chain maintainers don’t care if the requirements are high, so they increase the blocksize as demand increases. Since they use Proof Of Authority,[^permission] they only select validators with powerful setups capable of handling a block every 3 seconds, and the keep increasing the blocksize as the demand increases. Solana does something similar - anyone can run a validator on Solana, given they can meet the high bar for minimum specifications to keep up with ~400ms blocktime. Their hypothesis is that computers will get faster with time, so we can afford to have system requirements which are considered heavy today.[^solana]
 
-{: style="text-align: center"}
-![sol_meme.jpg](../assets/2022-06-30-blockchain-scaling/solana.jpg)
+![sol_meme.jpg](../assets/2022-06-30-blockchain-scaling/solana.jpg){: .align-center}
 
 ## Horizontal Scaling - Don’t Give Up On Decentralization!
 
@@ -143,8 +139,7 @@ A state channel is simple. Let’s take a payment channel to understand the conc
 
 An example of such an L2 is the [Bitcoin Lightning Network](https://medium.com/geekculture/bitcoins-lightning-network-explained-298c6aafe117).
 
-{: style="text-align: center"}
-![lightning-network.png](../assets/2022-06-30-blockchain-scaling/lightning-network.png)
+![lightning-network.png](../assets/2022-06-30-blockchain-scaling/lightning-network.png){: .align-center}
 
 #### Plasma
 
@@ -174,8 +169,7 @@ In short,
     - If it’s a Zero-Knowledge Rollup, the Smart Contract verifies the validity of the batch of transactions and correct state transition using some fancy mathemagic.
     - If it’s an optimistic rollup, the smart contract doesn’t do anything immediately. It marks this commitment as “pending” for a few days of challenge period, during which anyone can dispute the commit by submitting a fraud-proof.
 
-{: style="text-align: center"}
-![https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html](../assets/2022-06-30-blockchain-scaling/rollups.jpeg)
+![https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html](../assets/2022-06-30-blockchain-scaling/rollups.jpeg){: .align-center}
 
 Rollups are an active area of research[^zk], but they’ve been seeing [accelerating adoption](https://l2beat.com/) in the ecosystem thanks to their super low gas fees. Rollups also have additional vectors of attack. The centralized sequencer could censors someone, deprioritize some transactions, or go down due to bugs (or be taken down maliciously).[^bypass]
 
@@ -191,8 +185,7 @@ The idea in sharding is to split the validators into groups, and have them check
 
 Execution Sharding was also part of the original Ethereum scaling roadmap.[^eth2] Since then, Ethereum has pivoted to a rollup-centric roadmap. The bet is that Rollups will become the main consumer of blockspace on the L1. We need to be able to let the L2s do that without massive penalties, and increase how much data they can post on the block. So Ethereum is focusing on data sharding to keep the storage and network requirements of validators low so they can each verify only part of the block, and collectively verify the whole block (more on this on the PBS and DAS section).[^shardeddb]
 
-{: style="text-align: center"}
-![https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/](../assets/2022-06-30-blockchain-scaling/Shards.png)
+![https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/](../assets/2022-06-30-blockchain-scaling/Shards.png){: .align-center}
 
 ### Make it Cheaper to Check if Something is Wrong
 
@@ -218,8 +211,7 @@ With PBS, the builder isn’t the one proposing the block, so as long there is m
 
 While PBS implementation is quite a ways off, Flashbots is helping to tackle the problem in the meantime with products like mev-boost, essentially creating an off-chain standard for democratizing MEV.
 
-{: style="text-align: center"}
-![https://github.com/flashbots/mev-boost](../assets/2022-06-30-blockchain-scaling/mev-boost.png)
+![https://github.com/flashbots/mev-boost](../assets/2022-06-30-blockchain-scaling/mev-boost.png){: .align-center}
 
 #### Data Availability Sampling (DAS)
 
@@ -250,8 +242,8 @@ The problem with this naive solution is that a Producer can destroy trust in the
 
 Another nice property we gain from DAS is that the more decentralized the validator network, the bigger the blocksizes can be safely.[^clock] If you want to increase your confidence, just sample more parts! Holy grail!?[^lightnode]
 
-{: style="text-align: center"}
-![das_meme](../assets/2022-06-30-blockchain-scaling/das_meme.jpeg)
+
+![das_meme](../assets/2022-06-30-blockchain-scaling/das_meme.jpeg){: .align-center}
 
 
 
@@ -276,8 +268,7 @@ In the future, we’ll be looking at some concrete examples of L1s trying to sca
 Follow us on [Twitter](https://twitter.com/jezer0x) for updates. \
 Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 
-{: style="text-align: center"}
-![proud.gif](../assets/2022-06-30-blockchain-scaling/proudofyou.gif)
+![proud.gif](../assets/2022-06-30-blockchain-scaling/proudofyou.gif){: .align-center}
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
 [^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg)
