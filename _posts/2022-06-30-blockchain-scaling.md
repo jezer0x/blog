@@ -41,20 +41,19 @@ Here is a quick high-level overview of how a Proof of Stake Blockchain works:[^p
     1. An important property of public blockchains is Censorship Resistance. Any anonymous wallet should be able to add any valid transaction to the database without unfair delays. This makes blockchains ***permissionless***.
 3. We have multiple computers (called **validators**) to help us add the transactions to the database in a secure way. 
     1. The more validators we have[^diverse] the more ***resilient*** the network is against downtime.[^247] Downtime can happen due to Denial-of-Service attacks by malicious actors, catastrophic natural events, and zero-day vulnerabilities in the blockchain’s client software.
-4. In Proof of Stake, a random validator is picked to:
-    1. group one or more transactions together into a block
-    2. do any computation required (in the case of smart contracts) and summarize the result.
-    3. Propose this bundle to the other validators for inclusion at the head of the chain. 
-        1. Each validator checks if the computation is okay, and decides whether to accept the block.[^multipleblocks]
-        2. Once the block is decided, if anyone broke the rules, they are penalized. This is called “slashing” and is also encoded as a transaction that validators have to vote on. 
-5. From 4cii, we see that the “truth” in a blockchain is determined by what most of the validators say is the truth.
+4. In Proof of Stake, a random validator is picked every few blocks. This validator is called the Proposer for these blocks. The Proposer:
+    1. groups one or more transactions together into a block
+    2. does any computation required (in the case of smart contracts) and summarizes the result.
+    3. proposes this bundle to the other validators for inclusion at the head of the chain (i.e. add this block to the chain)
+5. Each validator checks if the computation is okay, and decides whether to accept the block.[^multipleblocks]. 
+6. Once the block is decided, if anyone broke the rules, they are penalized. This is called “slashing” and is also encoded as a transaction that validators have to vote on. 
+7. From 6, we see that the “truth” in a blockchain is determined by what most of the validators say is the truth.
     1. So, if most of the validators[^most] cheat the same way, consensus can still be achieved. And the minor who didn't cheat will be “lying” even if they followed the earlier rules. 
     2. To ensure that the validators don’t collude against the interest of the community[^actors] (e.g. via censorship or by rewriting the rows in the database), anyone should be able to verify the state of the blockchains. This is what gives blockchains their ***trustless*** property.
-6. To maximize the key properties of resilience, permissionlessness, and trustlessness, public blockchains must be as decentralized as possible. To maximize decentralization, we have to make it easy for people to validate the state of the blockchain themselves. 
-
+8. To maximize the key properties of resilience, permissionlessness, and trustlessness, public blockchains must be as decentralized as possible. To maximize decentralization, we have to make it easy for people to validate the state of the blockchain themselves. 
 
 > 💡 **Proof of Work is a throttling[^throttling] mechanism**
-> Most of this article talks about Proof of Stake (PoS) blockchains. In PoS chains, the block proposers only have to do the work required to build the block. Most of the scaling strategies are about reducing this work (horizontal) or getting the validator to do more of it (vertical). 
+> Most of this article talks about Proof of Stake (PoS) blockchains. In PoS chains, the block proposers only have to do the work required to build the block. Most of the scaling strategies are about reducing this work or getting the validator to do more of it. 
 > 
 > In a Proof of Work (PoW) blockchain, you need to build the block **AND** solve a puzzle, **which is explicitly designed to be random and difficult.** So PoS is inherently a more scalable system than Proof of Work, but it is a much more complex system with more moving parts.
 {: .notice--info}
@@ -64,7 +63,7 @@ Here is a quick high-level overview of how a Proof of Stake Blockchain works:[^p
 What does it mean to scale a blockchain? 
 In short, **we want to add as much data as possible every second.**[^TPS]
 
-Over the last few years, we’ve seen more and more use cases being built on top of public blockchains. If we look at the Ethereum network, the number of transactions per day has skyrocketed from ~10k/day in Jan 2016 to ~1M/day in Jun 2022 - a 10x increase.
+Over the last few years, we’ve seen more and more use cases being built on top of public blockchains. If we look at Ethereum, the number of transactions per day has skyrocketed from ~10k/day in Jan 2016 to ~1M/day in Jun 2022 - a 10x increase.
 
 [![defigrowth.png](../assets/2022-06-30-blockchain-scaling/defigrowth.png)](https://etherscan.io){: .align-center}  
 
@@ -83,13 +82,13 @@ The problem will only get worse as more users and developers onboard the Web3 ec
 In computer science, there are two main approaches to scaling:
 
 1. **Vertically:** Make nodes[^nodes] more and more powerful. This is what Web1 servers typically looked like since most users would only be consumers of the data. *As traffic increased, you’d upgrade servers’ specifications to keep up.* Beyond a certain point, scaling vertically stops being a cost-effective way.
-    1. As you scale blockchains vertically, they become more centralized since the minimum requirements for running a node increase. Thus, we see highly specialized computers dominate the share of validators.[^asics]
+    1. As you scale blockchains vertically, they become more centralized since the minimum requirements for running a node increase. Thus, we see highly specialized computers[^asics] dominate the share of validators.
 2. **Horizontally:** Add more nodes and split the work between them. Web2 systems generally evolved this way to distribute web traffic evenly between their centralized servers and databases. The amount of coordination overhead incurred by the system depends upon the number of nodes[^coordination] and how tightly controlled the environment is.[^control] 
     1. For decentralization in Web3, blockchains need to scale horizontally without making strict assumptions about network topology (e.g. maximum latency) and network participants (e.g. minimum system specifications). Good behavior has to be coordinated in this trustless environment using asymmetric encryption and game theoretic incentive mechanisms[^sticks]
 
 [![scaling](../assets/2022-06-30-blockchain-scaling/scaling.png)](https://www.pc-freak.net/blog/vertical-horizontal-server-services-scaling-vertical-horizontal-hardware-scaling/){: .align-center}
 
-We can start to see a fundamental tension between scaling and decentralization. This tension,  coined as the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)” by Vitalik Buterin, underlies all conversations around scaling.
+We can start to see a fundamental tension between scaling and decentralization. If you scale vertically (easier way), you lose decentralization. If you want to keep/improve decentralization, you have to contend with the challenges and bottlenecks of horizontal scaling. This tension,  coined as the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)” by Vitalik Buterin, underlies all conversations around scaling.
 
 There are a few questions to ask while evaluating any blockchain scaling approach:
 
@@ -105,13 +104,13 @@ With all that context out of the way, let’s try and scale blockchains!
 {: .notice}
 
 
-Let’s assume we have a chain that produces a block every 10s, and every block can hold a maximum of 100 transactions. 
+Let’s assume we have a network that produces a block every 10s, and every block can hold a maximum of 100 transactions. 
 
 This maximum limit is called a **maximum block size**. Why do we have such a limit? If everyone who wants to include a transaction in a block gets to include it, it might not be possible to process it in 10 seconds. So we need some kind of limit to ensure whoever is producing a block can do it in 10 seconds. The way people include their transaction over others is by getting into an auction for the ***blockspace***, by paying a higher amount for a unit of **gas**.[^gas]
 
 If we increased the maximum blocksize to 200 transactions, more transactions could be included in each block. However, if the block size is too large only those with powerful computers will be able to get the block ready within 10s.[^blocksizewar]
 
-[![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)](bitinfocharts.com){: .align-center }
+[![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)](https://bitinfocharts.com){: .align-center }
 
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
@@ -133,7 +132,7 @@ A Layer 2 (L2) is a setup where some of the computation is pre-processed by a di
 
 #### Hash Time Locked Contract (HTLC / State Channel)
 
-A state channel is simple. Let’s take a payment channel to understand the concept. Suppose you go to your neighborhood coffee shop every morning and pay in Bitcoin. It’s cool but cumbersome[^cumbersome] and expensive.[^expensive] What if you could open a “channel” with the coffee shop and sign a message that says you authorize the transfer of 1 BTC to them. But you only give it to them off-chain and don’t broadcast it to the network. The second time you come around, you sign a new message saying you will be transferring 2 BTC to them instead, and so on. At the end of the month, when you owe the shop 30BTC, the shop can send your latest signed message to the chain and collect their 30 BTC. We’ve now replaced 30 payments over a period of time into 1 settlement TX on-chain.
+A state channel is simple. Let’s take a payment channel to understand the concept. Suppose you go to your neighborhood coffee shop every morning and pay in Bitcoin. It’s cool but cumbersome[^cumbersome] and expensive.[^expensive] What if you could open a “channel” with the coffee shop and sign a message that says you authorize the transfer of 1 BTC to them. But you only give it to them off-chain and don’t broadcast it to the network. The second time you come around, you sign a new message saying you will be transferring 2 BTC to them instead, and so on. At the end of the month, when you owe the shop 30BTC, the shop can send your latest signed message to the network and collect their 30 BTC. We’ve now replaced 30 payments over a period of time into 1 settlement TX on-chain.
 
 An example of such an L2 is the [Bitcoin Lightning Network](https://medium.com/geekculture/bitcoins-lightning-network-explained-298c6aafe117).
 
@@ -141,26 +140,27 @@ An example of such an L2 is the [Bitcoin Lightning Network](https://medium.com/g
 
 #### Plasma
 
-Other such Layer 2 solutions include Plasma, where a separate network[^network] can periodically commit the state on L1.
+Other such Layer 2 solutions include Plasma, where a separate network[^network] can periodically commit the state on L1. The committed data is not enough to reconstruct the entire Plasma chain's state - you'll need to ask the Plasma chain for more data to do that. What happens if the Plasma chain nodes lie / withhold data is a data availability problem - a space with various solutions. The L1 only serves to keep the Plasma chain accountable to a certain degree. 
 
 [![plasma.png](../assets/2022-06-30-blockchain-scaling/plasma.png)](https://polygon.technology/solutions/polygon-pos/){: .align-center}
 
 
 #### Rollups
 
-Recently, rollups are getting a lot of attention. Rollups are blockchains on top of blockchains. The main difference between a plasma and a rollup is that the entire rollup can be reconstructed from the parent chain. Whereas in Plasma, most of the data is on the Plasma chain. The main chain only serves to keep the Plasma chain accountable. 
+Recently, rollups are getting a lot of attention. Rollups are essentially blockchains on top of blockchains. The entire Rollup state can be reconstructed from the data committed to the L1, which gives rollups robust security (the same level of security as the L1) and gives users the ability to force-exit their assets to the L1 if the Rollup Chain goes offline or turns malicious.
 
-[![rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png)](https://vitalik.ca/general/2021/01/05/rollup.html){: .align-center}
+[![Rollup.png](../assets/2022-06-30-blockchain-scaling/Rollup.png)](https://vitalik.ca/general/2021/01/05/Rollup.html){: .align-center}
 
-In short,
+Sounds great but how do rollups work? In short,
 
 - Rollups provide a Fair Sequencer (currently a centralized server) which orders the TXes
-- Users send their TXs to Fair Sequencer,
-- Fair Sequencer batches up all the TXes, and changes its state tree. It also commits the TX batch and new Merkle root on an L1 smart contract.
-    - This lets anyone recreate the state of the L2 from scratch if they run an L2 full node
+- Users send their TXs to Fair Sequencer. The Fair Sequencer runs the necessary computation to process these TXs, and changes the state tree accordingly. **This moves the computation off-chain (i.e. computation run by L1 validators fot this TX batch significantly reduced)**
+- After some time (ideally once it has processed a significantly large batch of TXs) the Fair Sequencer commits some data to the L1 smart contract. This data lets anyone recreate the state of the L2 from scratch if they run an L2 full node. **This moves data off-chain (i.e. data stored by L1 validators for this TX batch significantly reduced)**
+    - For a Zero-Knowledge Rollup, it commits the overall difference in state, the state's new hash[^merkle], and a zk-proof.[^zkproof]
+    - For an Optimistic Rollup, it commits a highly compressed version of the TX batch and the state's new hash.
 - This smart contract then secures the system with proofs.
-    - If it’s a Zero-Knowledge Rollup, the Smart Contract verifies the validity of the batch of transactions and correct state transition using some fancy mathemagic.
-    - If it’s an optimistic rollup, the smart contract doesn’t do anything immediately. It marks this commitment as “pending” for a few days of challenge period, during which anyone can dispute the commit by submitting a fraud-proof.
+    - If it’s a Zero-Knowledge Rollup, the L1 Smart Contract verifies the zk-proof. A proper proof convinces the Smart Contract that the state-diff posted was the result of valid state transitions (without knowing what the transactions were - hence zero-knowledge!)
+    - If it’s an Optimistic Rollup, the L1 Smart Contract doesn’t do anything immediately. It marks this commitment as “pending” for a few days (challenge period), during which anyone can dispute the commit by submitting a fraud-proof (hence optimistic!)
 
 [![rollups.png](../assets/2022-06-30-blockchain-scaling/rollups.jpeg)](https://coinlive.me/data-availability-the-bottleneck-of-ethereum-rollups-15203.html){: .align-center}
 
@@ -176,7 +176,7 @@ If you’re spinning up a new node, you should be able to fast-sync to the lates
 
 The idea in sharding is to split the validators into groups, and have them check only parts of the blockchain. Think of it as moving from a single-core computer to a multi-core computer that can process transactions in parallel.[^shard] But this can get quite hard to coordinate - especially if a transaction includes interactions in multiple shards. Zilliqa and Elrond utilize sharding to scale, but we don’t know enough detail to comment further. 
 
-Execution Sharding was also part of the original Ethereum scaling roadmap.[^eth2] Since then, Ethereum has pivoted to a rollup-centric roadmap. The bet is that Rollups will become the main consumer of blockspace on the L1. We need to be able to let the L2s do that without massive penalties, and increase how much data they can post on the block. So Ethereum is focusing on data sharding to keep the storage and network requirements of validators low so they can each verify only part of the block, and collectively verify the whole block (more on this in the PBS and DAS sections).[^shardeddb]
+Execution Sharding was also part of the original Ethereum scaling roadmap.[^eth2] Since then, Ethereum has pivoted to a Rollup-centric roadmap. The bet is that Rollups will become the main consumer of blockspace on the L1. We need to be able to let the L2s do that without massive penalties, and increase how much data they can post on the block. So Ethereum is focusing on data sharding to keep the storage and network requirements of validators low so they can each verify only part of the block, and collectively verify the whole block (more on this in the PBS and DAS sections).[^shardeddb]
 
 [![shards](../assets/2022-06-30-blockchain-scaling/Shards.png)](https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/){: .align-center}
 
@@ -240,7 +240,7 @@ Another nice property we gain from DAS is that the more decentralized the valida
 
 ### The Multi-Chain Thesis
 
-Let’s create more blockchains! Each chain has its own set of validators with custom parameters, governance, and consensus mechanisms. Each chain can specialize in a particular use case and tune itself accordingly. For example, GameFi projects can run on cheap and fast chains while DeFi runs on Ethereum for better security guarantees. We already live in this world since we have lots of “Alt L1s”. 
+Let’s create more blockchains! Each chain has its own network of validators with custom parameters, governance, and consensus mechanisms. Each chain can specialize in a particular use case and tune itself accordingly. For example, GameFi projects can run on cheap and fast chains while DeFi runs on Ethereum for better security guarantees. We already live in this world since we have lots of “Alt L1s” such as Avalanche, Solana, Cardano, Polkadot, etc. 
 
 The problems with this approach are fragmentation of liquidity and loss of composability. Interoperability between different chains is not a solved problem.[^bridges] The Cosmos ecosystem has been working on these cross-chain problems for quite some time. They’ve come up with a generalized messaging protocol called the “Inter Blockchain Communication” (IBC). They want anyone to be able to spin up and customize a chain easily using open source projects like Tendermint Core, CosmosSDK, and Ignite CLI. In the Cosmos model, the validator sets are independent and don’t keep a check on the others. Each validator set can be small because the work is now split between the blockchains. 
 
@@ -260,7 +260,7 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 ![proud.gif](../assets/2022-06-30-blockchain-scaling/proudofyou.gif){: .align-center}
 
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
-[^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg)
+[^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg). Look at his other videos too, they're excellent!
 [^posfocus]: Though we are going to focus on Proof Of Stake blockchains, most of the discussion will also apply to proof of work chains as well, just that some of the finer details will vary
 [^shared]: i.e. distributed
 [^database]: i.e. ledger
@@ -274,8 +274,8 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^usecases]: e.g. Decentralized Social Media, more of the Finance industry, Metaverse, and Gaming
 [^nodes]: 
     There are fundamentally 4 resources a full node needs:
-    - CPU → To manipulate state, run smart contracts and check the validity of transactions, etc.
-    - Memory → To cache “active” data so the CPU doesn’t have to wait around for it to load from storage.
+    - CPU → To read and modify state, run smart contracts and check the validity of transactions, etc.
+    - Memory → To cache heavily used parts of the data so the CPU doesn’t have to wait around for it to load from storage.
     - Storage → To store the snapshot of the blockchain’s world state at each block.
     - Network Connection → To talk to peers in the network and receive broadcasts of new transactions to put in mempool [where TX is kept by nodes until included in a block], queries from light clients, and sync to the tip of the chain.
 
@@ -349,3 +349,5 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^subnet]: subset of validators with one or more common property
 [^solana]: The Solana Sealevel VM is also is also heavily optimized to make us of GPUs and multi-core processing to execute blocks quickly. Network propagation of packets is also similarly optimized. These techniques could arguably used in other blockchains as well, but they will come at the expense of inclusivity
 [^tpscompare]: You can see the alleged TPS of various chains [here](https://alephzero.org/blog/what-is-the-fastest-blockchain-and-why-analysis-of-43-blockchains/).
+[^merkle]: the state's hash is the root of a merkle tree for most blockchains as of now. The "state tree" mentioned in this article are merkle trees. Merkle trees are awesome since they allow compact proofs of large data structures (such as the Ethereum world's state Storage). You can read about them [here](https://en.wikipedia.org/wiki/Merkle_tree). 
+[^zkproof]: ZK proofs are fascinating, but they require a lot of math to get your head around. If you're not a math-magician, you can get the intuition behind how zk proofs are possible by watching this [video from Numberphile](https://www.youtube.com/watch?v=5ovdoxnfFVc). 
