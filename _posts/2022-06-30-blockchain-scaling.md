@@ -110,7 +110,7 @@ This maximum limit is called a **maximum block size**. Why do we have such a lim
 
 If we increased the maximum blocksize to 200 transactions, more transactions could be included in each block. However, if the block size is too large only those with powerful computers will be able to get the block ready within 10s.[^blocksizewar]
 
-[![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)](https://bitinfocharts.com){: .align-center }
+[![bitinfocharts.com](../assets/2022-06-30-blockchain-scaling/blocksize.png)](https://bitinfocharts.com/comparison/size-btc-eth-ltc-bch-bsv-btg.html#log&alltime){: .align-center }
 
 Another way to scale the TPS is to produce a block every 5s instead of every 10s.[^param] This also creates a centralizing force since it requires a highly specialized computer.[^latency][^storage] This prices out the low-tier nodes.[^rpi]
 
