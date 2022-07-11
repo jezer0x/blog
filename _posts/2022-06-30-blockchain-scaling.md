@@ -13,7 +13,11 @@ header:
     overlay_image: https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop
     caption: "[**Unsplash**](https://unsplash.com)"
     show_overlay_excerpt: false
+    cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2022-06-30-blockchain-scaling.md
+    cta_label: "Edit on Github"
+    arweave_tx: 
 ---
+
 
 Blockchains are hitting scaling bottlenecks as more dApps and users onboard. The challenge lies in keeping blockchains decentralized, secure, and energy-efficient as we scale. In this article, we discuss vertical scaling techniques such as block size and block frequency tweaks. We also discuss horizontal scaling techniques such as using multiple chains, Layer 2s, sharding, history expiry, data availability sampling, and proposer-builder separation. 
 
@@ -149,7 +153,7 @@ Other such Layer 2 solutions include Plasma, where a separate network[^network] 
 
 Recently, rollups are getting a lot of attention. Rollups are essentially blockchains on top of blockchains. The entire Rollup state can be reconstructed from the data committed to the L1, which gives rollups robust security (the same level of security as the L1) and gives users the ability to force-exit their assets to the L1 if the Rollup Chain goes offline or turns malicious.
 
-[![Rollup.png](../assets/2022-06-30-blockchain-scaling/Rollup.png)](https://vitalik.ca/general/2021/01/05/Rollup.html){: .align-center}
+[![Rollup.png](../assets/2022-06-30-blockchain-scaling/rollup.png)](https://vitalik.ca/general/2021/01/05/Rollup.html){: .align-center}
 
 Sounds great but how do rollups work? In short,
 
