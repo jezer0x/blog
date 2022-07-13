@@ -48,18 +48,18 @@ Here is a quick high-level overview of how a Proof of Stake Blockchain works:[^p
 4. In Proof of Stake, a random validator is picked every few blocks. This validator is called the Proposer for these blocks. The Proposer:
     1. groups one or more transactions together into a block
     2. does any computation required (in the case of smart contracts) and summarizes the result.
-    3. proposes this bundle to the other validators for inclusion at the head of the chain (i.e. add this block to the chain)
+    3. proposes this bundle to the other validators to add to the end of the chain.
 5. Each validator checks if the computation is okay, and decides whether to accept the block.[^multipleblocks]. 
 6. Once the block is decided, if anyone broke the rules, they are penalized. This is called “slashing” and is also encoded as a transaction that validators have to vote on. 
 7. From 6, we see that the “truth” in a blockchain is determined by what most of the validators say is the truth.
-    1. So, if most of the validators[^most] cheat the same way, consensus can still be achieved. And the minor who didn't cheat will be “lying” even if they followed the earlier rules. 
+    1. So, if most of the validators[^most] cheat the same way, consensus can still be achieved. And the minority who didn't cheat will be “lying” even if they followed the earlier rules. 
     2. To ensure that the validators don’t collude against the interest of the community[^actors] (e.g. via censorship or by rewriting the rows in the database), anyone should be able to verify the state of the blockchains. This is what gives blockchains their ***trustless*** property.
 8. To maximize the key properties of resilience, permissionlessness, and trustlessness, public blockchains must be as decentralized as possible. To maximize decentralization, we have to make it easy for people to validate the state of the blockchain themselves. 
 
 > 💡 **Proof of Work is a throttling[^throttling] mechanism**
 > Most of this article talks about Proof of Stake (PoS) blockchains. In PoS chains, the block proposers only have to do the work required to build the block. Most of the scaling strategies are about reducing this work or getting the validator to do more of it. 
 > 
-> In a Proof of Work (PoW) blockchain, you need to build the block **AND** solve a puzzle, **which is explicitly designed to be random and difficult.** So PoS is inherently a more scalable system than Proof of Work, but it is a much more complex system with more moving parts.
+> In a Proof of Work (PoW) blockchain, you need to build the block **AND** solve a puzzle, **which is explicitly designed to be random and difficult.** So PoS is inherently a more scalable system than Proof of Work, but it is a much more complex system with more moving parts [^movingparts].
 {: .notice--info}
 
 ## Why is Scaling in the Spotlight?
@@ -75,7 +75,7 @@ The number of active wallets per day on Ethereum in June 2022 is about [700k](ht
 
 Assuming more and more use cases are built on top of blockchains[^usecases], it is not difficult to imagine a world in the future where activity on blockchains will be on the order of 100x to 1000x what it is today.
 
-However, we see the gas fees in Ethereum already become prohibitively expensive for the average user when there’s a sudden spike in interest in a particular protocol. We’ve seen some low-fee blockchains become clogged or go down when they encounter such spikes too. 
+However, we see the gas fees [^gas] in Ethereum already become prohibitively expensive for the average user when there’s a sudden spike in interest in a particular protocol. We’ve seen some low-fee blockchains become clogged or go down when they encounter such spikes too. 
 
 The problem will only get worse as more users and developers onboard the Web3 ecosystem.[^tpscompare]
 
@@ -88,11 +88,13 @@ In computer science, there are two main approaches to scaling:
 1. **Vertically:** Make nodes[^nodes] more and more powerful. This is what Web1 servers typically looked like since most users would only be consumers of the data. *As traffic increased, you’d upgrade servers’ specifications to keep up.* Beyond a certain point, scaling vertically stops being a cost-effective way.
     1. As you scale blockchains vertically, they become more centralized since the minimum requirements for running a node increase. Thus, we see highly specialized computers[^asics] dominate the share of validators.
 2. **Horizontally:** Add more nodes and split the work between them. Web2 systems generally evolved this way to distribute web traffic evenly between their centralized servers and databases. The amount of coordination overhead incurred by the system depends upon the number of nodes[^coordination] and how tightly controlled the environment is.[^control] 
-    1. For decentralization in Web3, blockchains need to scale horizontally without making strict assumptions about network topology (e.g. maximum latency) and network participants (e.g. minimum system specifications). Good behavior has to be coordinated in this trustless environment using asymmetric encryption and game theoretic incentive mechanisms[^sticks]
+
 
 [![scaling](../assets/2022-06-30-blockchain-scaling/scaling.png)](https://www.pc-freak.net/blog/vertical-horizontal-server-services-scaling-vertical-horizontal-hardware-scaling/){: .align-center}
 
-We can start to see a fundamental tension between scaling and decentralization. If you scale vertically (easier way), you lose decentralization. If you want to keep/improve decentralization, you have to contend with the challenges and bottlenecks of horizontal scaling. This tension,  coined as the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)” by Vitalik Buterin, underlies all conversations around scaling.
+For decentralization in Web3, blockchains need to have low barrier to entry for anyone to participate in securing the blockchain. So we want to avoid imposing stringent requirements about their network speed or system specifications.  This inevitably leads to trade-offs. For example, if you cant require that everyone needs to vote within a certain period of time, it becomes harder to guarantee that the blockchain will reach consensus within a certain period of time. The block times are hence slower, and it doesnt scale as much.
+
+In summary, if you scale vertically (easier way), you compromise on decentralization. If you want to keep/improve decentralization, you have to contend with the challenges and bottlenecks of horizontal scaling. We can start to see a fundamental tension between scaling and decentralization.  One way to look at this tension is the “[Blockchain Trilemma](https://medium.com/certik/the-blockchain-trilemma-decentralized-scalable-and-secure-e9d8c41a87b3)”, a term coined by Vitalik Buterin. This underlies all conversations around scaling.
 
 There are a few questions to ask while evaluating any blockchain scaling approach:
 
@@ -266,14 +268,15 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^consensus]: [3blue1brown explainer here](https://www.youtube.com/watch?v=bBC-nXj3Ng4)
 [^jordan]: [Jordan’s explainer here](https://www.youtube.com/watch?v=kCswGz9naZg). Look at his other videos too, they're excellent!
 [^posfocus]: Though we are going to focus on Proof Of Stake blockchains, most of the discussion will also apply to proof of work chains as well, just that some of the finer details will vary
-[^shared]: i.e. distributed
-[^database]: i.e. ledger
-[^append]: i.e. append-only
+[^shared]: also referred to as "distributed"
+[^database]: commonly referred to as a "ledger" because the database is used as an accounting system
+[^append]: the technical term for this is "append-only"
 [^diverse]: and the more diverse the validator set
 [^247]: so that activity on-chain can continue uninterrupted 24/7
 [^most]: definition of “most” depends on the blockchain
 [^actors]: normal users, honest validators, developers, protocols
 [^throttling]: the opposite of scaling
+[^movingparts]: In PoW, the simple act of showing the solution to the puzzle is enough to prove that work was done to create the block. A simple rule to follow the longest chain is enough because it is the one on which most work was done, and it's very very expensive to maintain alternate chains without majority support. However, In proof of stake, proposing a new block costs almost nothing. So, you need to add a lot of safeguards in terms of rules everyone agrees to follow to ensure that a malicious block proposer is adequately and always penalized for cheating. Which adds a lot of complexity to the system. This is a topic for another blog post on blockchain consensus.
 [^TPS]: often referred to as TPS, or Transactions Per Second
 [^usecases]: e.g. Decentralized Social Media, more of the Finance industry, Metaverse, and Gaming
 [^nodes]: 
@@ -286,8 +289,7 @@ Join our [Discord](https://discord.gg/jkBF9mpQ6w) to discuss and learn together.
 [^asics]: e.g. expensive GPUs, ASICs, mining farms
 [^coordination]: intuitively, faster to coordinate 10 nodes than 1000 nodes
 [^control]: more control = more assumptions you can make about the behavior of the system safely
-[^sticks]: i.e. sticks and carrots
-[^web3now]: Ethereum is mostly DeFi and NFTs at this point, and the data presented above does not take into account all the activity happening on L2s and other L1s
+[^web3now]: Ethereum is mostly DeFi and NFTs at this point, and the data presented above does not take into account all the activity happening on other blockchains (or L2s on Ethereum like Arbitrum)
 [^gas]: every byte of blockspace costs a certain amount of gas
 [^blocksizewar]: In fact, the [“blocksize wars” raged on for years in the Bitcoin ecosystem until SegWit and lightning went live and the small blockers won.](https://www.bitrawr.com/bitcoin-block-size-debate-explained)
 [^param]: You could easily tweak the block time by adjusting the difficulty in the PoW algorithm, or changing a config in a PoS network - but you’ll have to balance that between cost to miners, TX fees, and UX for users
