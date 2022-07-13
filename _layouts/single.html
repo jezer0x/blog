@@ -55,6 +55,9 @@ layout: default
           <h4 class="page__meta-title">{{ site.data.ui-text[site.locale].meta_label }}</h4>
         {% endif %}
         {% include page__taxonomy.html %}
+        {% if page.header.arweave_tx %}
+          Arweave TX: <a href="https://arweave.net/{{ page.header.arweave_tx }}" class="u-url" itemprop="url">{{ page.header.arweave_tx }}</a>
+        {% endif %}
       </footer>
 
       {% if page.share %}{% include social-share.html %}{% endif %}
