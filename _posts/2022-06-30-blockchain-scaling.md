@@ -16,7 +16,7 @@ header:
     show_overlay_excerpt: false
     cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2022-06-30-blockchain-scaling.md
     cta_label: "Edit on Github"
-    arweave_tx: 
+    arweave_tx: 3AL7ra9ASfPwQ67dpIdL3nM1xsyDIziWK17U5XVFfbI
 ---
 
 

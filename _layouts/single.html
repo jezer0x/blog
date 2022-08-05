@@ -56,9 +56,7 @@ layout: default
         {% endif %}
         {% include page__taxonomy.html %}
         {% include page__date.html %}
-        {% if page.header.arweave_tx %}
-          Arweave TX: <a href="https://arweave.net/{{ page.header.arweave_tx }}" class="u-url" itemprop="url">{{ page.header.arweave_tx }}</a>
-        {% endif %}
+        {% include page__arweave.html %}
       </footer>
 
       {% if page.share %}{% include social-share.html %}{% endif %}
