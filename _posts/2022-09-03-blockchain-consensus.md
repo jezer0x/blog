@@ -8,7 +8,7 @@ authors:
   - name: Psyf
     link: https://twitter.com/psyf01
 tags: Consensus
-last_modified_at: 2022-07-22
+last_modified_at: 2022-09-05
 header:
   overlay_image: ../assets/2022-09-03-blockchain-consensus/neven-krcmarek-BJrSBYpHnpo-unsplash.jpg
   caption: Photo by <a href="https://unsplash.com/@nevenkrcmarek?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Neven Krcmarek</a> on <a href="https://unsplash.com/collections/8945691/galactic-consensus?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
