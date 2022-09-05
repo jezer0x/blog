@@ -15,7 +15,7 @@ header:
   show_overlay_excerpt: false
   cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2022-09-03-blockchain-consensus.md
   cta_label: "Edit on Github"
-  arweave_tx:b2VMlOF2thLvPbIGjpS8FYIs8ZBKZV0ykx_9FW0nESI
+  arweave_tx: b2VMlOF2thLvPbIGjpS8FYIs8ZBKZV0ykx_9FW0nESI
 ---
 
 ## What is Consensus?
