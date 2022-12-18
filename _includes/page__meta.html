@@ -4,7 +4,8 @@ document.show_date %}
   <span>
     {% assign authorCount = document.authors | size %}
     {% if authorCount == 1 %}
-        by {{ document.authors | first }}
+      {% assign author = document.authors[0] %}
+      By <a href="{{ author.link }}">{{ author.name }}</a>
     {% else %}
         {% for author in document.authors %}
             {% if forloop.first %}
