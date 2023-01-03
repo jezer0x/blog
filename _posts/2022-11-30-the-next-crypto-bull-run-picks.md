@@ -1,5 +1,6 @@
 ---
 layout: single
+excerpt: Positioning for the bull run
 authors:
   - name: Krenzx
     link: https://twitter.com/krenzx

@@ -1,6 +1,7 @@
 ---
 title: LLM-As-A-Dev - Building a Trading Bot
 layout: single
+excerpt: Am I jobless? Not yet but soon...
 authors:
   - name: psyf
     link: https://twitter.com/psyf01
