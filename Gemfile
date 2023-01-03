@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "jekyll"
+gem "jemoji"
 gem "kramdown-parser-gfm"
 gem "jekyll-include-cache", group: :jekyll_plugins
 gem "webrick", "~> 1.7" 
