@@ -1,7 +1,7 @@
 ---
-title: LLM-As-A-Dev - Building a Trading Bot
+title: ChatGPT As An Assistant Developer
 layout: single
-excerpt: Am I jobless? Not yet but soon...
+excerpt: Am I jobless? Not yet but soon...in a good way (!)
 authors:
   - name: psyf
     link: https://twitter.com/psyf01
@@ -18,9 +18,9 @@ header:
 
 ## The Task
 
-I was feeling pretty down after we had to close down a project we had been working on for months and wanted to take a small break from smart contracts to collect my thoughts about what we did wrong. Around the same time, I was digging around Github Copilot and OpenAI's GPT3. They released ChatGPT right around then, and - similar to most people - I was blown away by its abilities. The new Large Language Model was inpiring me to build something fun and useful to test its limits. But what?
+I was feeling pretty down after we had to close down a project we had been working on for months and wanted to take a small break from smart contracts to collect my thoughts about what we did wrong. Around the same time, I was digging around Github Copilot and OpenAI's GPT3. They released ChatGPT right around then, and - like most people - I was blown away by its abilities. The new Large Language Model was inpiring me to build something fun and useful to test its limits. But what?
 
-My colleague Krenzx was following a Telegram group that made calls about the crypto markets and boasted about their success.
+Krenzx was following some Telegram groups that made trading calls in crypto markets and boasted about their success. Maybe we could make a bot that would execute those calls automatically and make some money?
 
 ![Trading Calls](../assets/2022-12-30-trading-bot/call_example.png){: .align-center}
 
@@ -39,7 +39,7 @@ There were 2 metrics to test the LLMs against:
 
 - **Assumptions:** It made a few reasonable assumptions about (1) the contents of the trading call, (2) using a Telegram Bot and (3) using Spot on Binance.
 - **Fast Iteration:** It churned out some mostly-usable lines of code that encompassed the entire workflow.
-- **Learning:** It would also explain what it was doing, so even though I didn't know anything about the Telegram API or Binance API, I picked it up faster than I would otherwise[^otherwise].
+- **Learning:** It would also explain what it was doing. So even though I didn't know anything about the Telegram or Binance APIs, I picked it up faster than I would otherwise[^otherwise].
 
 ## The Bad
 
@@ -52,9 +52,9 @@ There were 2 metrics to test the LLMs against:
 
 ## Development and Deployment
 
-- coded and ran on ReplIt[^whynot]
-- but soon moved it to a digitalOcean Droplet[^config]
-- Synced the calls from the telegram channel to a local SQLite DB and stored logs for what the bot was doing on flat files (to debug - and there was a lot of debugging).
+- Coded and ran on ReplIt[^whynot]. It was awesome and has come a _long_ way since I last used it in 2018.
+- But soon moved it to a DigitalOcean Droplet[^config] because I'd have to learn and make some ReplIt specific changes that I did not want to. Plus if I was ever moving this intro production, pretty sure I'd self host.
+- Synced the calls from the Telegram channel to a local SQLite DB and stored logs for what the bot was doing on flat files (to debug - and there was a lot of debugging).
 - Started off on the spot testnet but hit annoying limits. So we just YOLO-ed 1K of ACTUAL USDT. To our surprise, we did not lose money. Time spent so far was about a couple days of work, and I think we went at least 2x fast. **As the code gets more complex returns you get from using LLM drops off.**
 
 ## Ape In
@@ -74,11 +74,29 @@ But if you're interested in tinkering with the bot yourself, or going ape shit w
 
 Just be careful and don't use more money than you're willing to lose! :monkey:
 
+## Future of Development
+
+Looking back at the metrics we set earlier, we can safely say that LLMs reduced the amount of Googling/StackOverflow I needed by a dramatic amount at the start of the project. It also got me up and running fast with v1, but further iterations were much slower owing to (1) bugs and (2) its inability to access to internet.
+
+Here's someone on twitter saying the same thing, but on a thread:
+
+{% twitter https://twitter.com/danshipper/status/1609931358213935105 align="center" %}
+
+Both of those problems should be solvable by:
+
+- Scaling up the AI so it can store more context about the entire codebase and relevant libraries. Copilot's underlying model is small in comparison to chatGPT's, but it's difficult to send the entire codebase to chatGPT to get better results.
+- Hooking the AI up to pieces of infra it can use to simulate its own answer, test it, and fix bugs. This is what's known as an "Agentic AI" and is a very active area of research. You can see a mind-blowing demo here: https://youtu.be/_3MBQm7GFIM?t=265
+- Allowing the AI to search on the internet. This would have solved the versioning problems we saw with Binance, Telegram and SQLAlchemy. Lots of companies are trying to "take on Google" like this. You can check some of them out at You.com, PerplexityAI, Metaphor Systems.
+
+It's pretty clear it's going to change the nature of the job of a software engineer **in a good way**. Gone are the days of "googling stuff is 90%" of my day, and "I will grind Leetcode until I pass interviews". Everyone's productivity will 10x, when going from idea to execution. So what will matter is coming up with ideas, directing the AI superpower properly (almost like a smart, super-fast intern who doesn't know what to do), and iterating on the end result till you are satisfied with your creation.
+
+I'm SO excited to see how this plays out.
+
 [^seriously]: seriously, I'll struggle to explain the difference between margin and futures
 [^otherwise]: i.e. by reading docs, seeing and trying to replicate easy examples
 [^itried]: Yes, I tried asking chatGPT about the finance concepts but it wouldn't go back and forth with examples, analogies, and step through specific scenarios like my friends would.
-[^tbf]: To be fair, even though ChatGPT made incorrect assumptions about the parameters and responses, I'd made the same assumptions before reading the docs
+[^tbf]: To be fair, even though ChatGPT made incorrect assumptions about the parameters and responses, I'd made the same assumptions before reading the docs. Or maybe it was a versioning problem yet again?
 [^whynot]: Because why not explore a shit tonne of things at the same time and whine when it doesn't all work butter smooth - it's 2022 people! I'm an entitled af Dev
 [^maintain]: e.g. onitoring, debugging, making future changes, db schema etc. ChatGPT also structures python projects in a very throwaway-script manner which is no bueno for production
 [^sweet]: apart from the fact that the futures testnet is SWEET in comparison to the rest of the clusterfuck Binance has
-[^config]: Where I had to configure a minimal ubuntu droplet with poetry+pyenv - BY HAND
+[^config]: Where I had to configure a minimal Ubuntu droplet with poetry+pyenv - BY HAND
