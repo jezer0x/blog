@@ -90,6 +90,8 @@ Both of those problems should be solvable by:
 
 It's pretty clear it's going to change the nature of the job of a software engineer **in a good way**. Gone are the days of "googling stuff is 90%" of my day, and "I will grind Leetcode until I pass interviews". Everyone's productivity will 10x, when going from idea to execution. So what will matter is coming up with ideas, directing the AI superpower properly (almost like a smart, super-fast intern who doesn't know what to do), and iterating on the end result till you are satisfied with your creation.
 
+{% twitter https://twitter.com/svpino/status/1611357154514186241 align="center" %}
+
 I'm SO excited to see how this plays out.
 
 [^seriously]: seriously, I'll struggle to explain the difference between margin and futures
