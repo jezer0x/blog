@@ -1,5 +1,5 @@
 ---
-title: Blockchain Consensus
+title: ⛓️ Blockchain Consensus
 layout: single
 excerpt: A quick dive into consensus mechanisms used in blockchains today.
 authors:

@@ -1,4 +1,5 @@
 ---
+title: 🐂 The Next Crypto Bull Run Picks
 layout: single
 excerpt: Positioning for the bull run
 authors:

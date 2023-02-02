@@ -28,6 +28,8 @@
 
   a[rel="permalink"] {
     position: static;
+    // remove the underline 
+    text-decoration: none;
   }
 }
 
@@ -460,4 +462,9 @@
 	.feature__wrapper {
 		display: inline-block;
 	}
+}
+
+// override the h2::before for these list items
+.archive__item h2::before {
+  display: none;
 }

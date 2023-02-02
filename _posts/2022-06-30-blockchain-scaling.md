@@ -1,4 +1,5 @@
 ---
+title: 🎡 Blockchain Scaling
 layout: single
 authors:
   - name: MadNeutrino

@@ -1,5 +1,5 @@
 ---
-title: ChatGPT As An Assistant Developer
+title: 🤖 ChatGPT As An Assistant Developer
 layout: single
 excerpt: Am I jobless? Not yet but soon...in a good way (!)
 authors:
