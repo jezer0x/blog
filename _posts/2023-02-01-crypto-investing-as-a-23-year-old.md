@@ -1,5 +1,5 @@
 ---
-title: 💸 Lessons from a 23yo First Cycler
+title: 💸 Lessons From A 23YO First Cycler
 layout: single
 excerpt: Painful but necessary rite of passage.
 authors:
