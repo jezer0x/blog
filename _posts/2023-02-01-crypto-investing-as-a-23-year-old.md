@@ -73,7 +73,7 @@ Krenzx was a huge fan of Thorchain's RUNE around this time, and predicting how i
 
 I negotiated a nice little bonus and invested most of it in 1 shot.
 
-❌ I wasn't trying to time the market, but turned out I invested very close to the top. Always DCA.
+❌ I wasn't trying to time the market, but turned out I invested very close to the top. Always DCA[^dca].
 {: .notice--danger}
 
 ![allin](https://media.giphy.com/media/jTrMNc8FPZntcZmSS7/giphy.gif){: .align-center}
@@ -156,6 +156,7 @@ Maybe it's time I remove the single points of failure. Buy a ledger, distribute 
 
 ## November, 2022
 
+FTX unravelling happened at a crazy pace. Thank God I took self custody seriously. Heart goes out to everyone affected in this and the following contagion.
 Not making a lot of mistakes these days, but that might just be a side effect of pausing my DCA to keep investments to build up a personal runway. Invest some money on what makes you happier long term - travel, mental health, physical health, gifts for friends.
 
 ✅ If you have a runway, you'll be less emotional with decisions. It also enforces "don't invest more than you can afford to lose" to a certain extent.
@@ -169,18 +170,20 @@ Not making a lot of mistakes these days, but that might just be a side effect of
 ## February, 2023
 
 Wrote a post about my journey so far[^recursion].
-Now that I've experienced first-hand the result of not following (or following) popular and "boring" investment advice, I'm more confident about what I want and what works.
+Started DCA-ing back in because I think we're close to the bottom.
 
+Now that I've experienced first-hand the result of not following (or following) popular and "boring" investment advice, I'm more confident about what I want and what works.
 Here's my plan for the next 2 years:
 
-- 80% of the upcoming investments will be DCA into assets I believe in, rest of the 20% is exploration budget for more exciting bets.
+- 80% of the upcoming investments will be DCA into assets I believe in, rest of the 20% is exploration budget for more exciting bets.[^bags]
 - I have stop-losses and take-profits in my head. I know what I'll ride down to 0.
 - I have bounds on how much I'll invest.
-- I will not buy or sell without due dilligence, but I won't have analysis paralysis either.
+- I will not buy or sell without due dilligence, but I won't have analysis paralysis either.[^analysis]
 - I will remove single points of failure everywhere, but not spread myself too thin either.
 - I will stick to self-custody.
 - I will not lose sight of why I'm doing this in the first place.
-- I will be accountable for my mistakes, which means I will learn and improve anything within my control that I can.
+- I will be accountable for my mistakes, which means I will take an honest assessment and improve anything within my control.
+- I will keep learning technical skills so I can contribute to building a decentralized web.
 
 At the end of 2030, I might be a millionaire, or I might be broke, or I might still sit on what I have now. Either way, I'll be happy because I'm playing the game I want to play the way I want to play it.
 
@@ -192,3 +195,6 @@ Enjoy the journey.
 
 [^daytrading]: Day Trading feels like monkeys pulling levers randomly, but using random ass lines drawn on a chart to justify to themselves that it's not random.
 [^recursion]: That's called recursion ;)
+[^dca]: dollar cost averaging
+[^analysis]: This means looking at the community dialogue, tokenomics and actual utility of the token, understand well the whitepaper and the unique tech fueling the protocol, look at counterarguments and then augment my git feeling to make a call on whether I want to invest or not.
+[^bags]: If you're still curious about my bag: I've divested out of BTC because I don't have confidence in the community being able to evolve. ETH I still DCA into because Lindy, and the core community still has the ethos and drive to keep improving (see the Merge, EIP4844, etc.). All the other "dust" bags are not worth selling off, let 'em ride (none were shitcoins anyways, so there's some probability few will survive till the next bull). RUNE I hold - still feels important to a multichain world and is slowly gaining adoption, though I think the community needs to grow up and be more effective at execution.
