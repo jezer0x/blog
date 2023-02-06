@@ -6,7 +6,7 @@ authors:
   - name: psyf
     link: https://twitter.com/psyf01
 tags: Crypto Investment
-last_modified_at: 2023-02-01
+last_modified_at: 2023-02-04
 header:
   overlay_image: assets/2023-02-01-crypto-investing-as-a-23-year-old/cover.png
   caption: playgroundai.com
