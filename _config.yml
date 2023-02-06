@@ -18,9 +18,9 @@ minimal_mistakes_skin: "neon" # "air", "aqua", "contrast", "dark", "dirt", "neon
 locale: "en-US"
 title: "Jezer0x"
 title_separator: "|"
-subtitle: "Crypto Research and Development" # site tagline that appears below site title in masthead
+subtitle: "A community to study and explore cutting edge software" # site tagline that appears below site title in masthead
 name: "Jezer0x"
-description: "Crypto Research and Development"
+description: "A team of technology enthusiasts coming together to study, explore and build using cutting edge software"
 domain: jezer0x.com
 url: https://jezer0x.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 repository: jezer0x/blog # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
