@@ -16,7 +16,9 @@ header:
 
 # Prompting GPT to write code
 
-ChatGPT’s ability to write code (in addition to an uncanny ability to “understand” what we are saying) has fascinated all of us the last couple months. In this post, i want to compile some attempts to nudge GPT to write runnable code [as opposed to just guiding us with principles and snippets]. Can we prime GPT in a such a way as to remove the developer from the loop?
+ChatGPT’s ability to write code (in addition to an uncanny ability to “understand” what we are saying) has fascinated all of us the last couple months.
+
+In this post, I want to compile some attempts to nudge GPT to write runnable code [as opposed to just guiding us with principles and snippets as we outlined [in our earlier post](https://www.jezer0x.com/trading-bot/)]. Can we prime GPT in a such a way as to remove the developer from the loop?
 
 ## CoPilot
 
@@ -30,9 +32,7 @@ It sends the code from the file you are currently in + other files in your proje
 
 This interface is restrictive when you want to write code from scratch.
 
-[Sidenote: For example, look at [UPG](https://github.com/gptlabs/tools/tree/canary/packages). They have an interface where GPT codes entire programs with you, works with you to make changes, writes it to a file and then executes it for you. But the prompt is hidden behind an API so we dont know what prompt they use. However, it does give us a sense of what could be possible with GPT. ]
-
-In this article, we will explore some attempts to directly interface with GPT to generate code, the prompts being used to do the same, and how we could go about replicating something like UPG.
+In this article, we will explore some attempts[^upg] to directly interface with GPT to generate code and the prompts being used to do the same.
 
 ## Simple Website
 
@@ -40,9 +40,9 @@ Let’s start with an example of someone using ChatGPT to create the html, js an
 
 [https://www.youtube.com/watch?v=ng438SIXyW4](https://www.youtube.com/watch?v=ng438SIXyW4)
 
-Compared to CoPilot, this is better interface for writing code from scratch. You dont have to write any code to prime the model. The prompts are quite straightforward and specify what is needed in English. The dev mentions specific technologies to use, asks for specific code snippets and ChatGPT gets it in the right ballpark.
+Compared to CoPilot, this is better interface for writing code from scratch. You dont have to write any code to prime the model. The prompts are quite straightforward and specify what is needed in English. The dev mentions specific technologies to use, asks for specific code snippets and ChatGPT gets it in the right ballpark. Most of the code is used as-is, but the dev does end up making some minor changes by hand.
 
-A job board is a common website pattern and ChatGPT ought to have a lot of examples to generate from. One might have to offer it a lot more guidance if you are building something new.
+A job board is a common website pattern and ChatGPT ought to have a lot of examples to generate from. One might have to offer more detailed guidance if you are building something new.
 
 ## Custom **JSON**
 
@@ -52,43 +52,43 @@ Can we ask GPT to generate JSON based on templates or examples?
 
    ![zapier-zap](../assets/2023-02-02-prompting-gpt-to-code/zapier-zap.png)
 
-2. [Here a different approach](https://twitter.com/colinfortuner/status/1619558128772874245?s=46&t=SGTwwmdLIR_cbQuYZSSsrg) is taken to send GPT a json **type**, and ask it to generate Fake JSON for testing. You can see the instructions show examples only of the _format_ of the correct answer, as well as an example of a wrong answer _format_ with some guidance on JSON structure expected. I expect these fine tunings were in response to issues found while testing. Examples generally seem to help a lot!
+2. [Here is a slightly more advanced approach](https://twitter.com/colinfortuner/status/1619558128772874245?s=46&t=SGTwwmdLIR_cbQuYZSSsrg). GPT is given a json **type**, and asked to generate Fake JSON for testing. You can see the instructions show examples only of the _format_ of correct and wrong answers with some guidance on JSON structure expected. I expect these fine tunings were in response to issues found while testing. Examples generally seem to help a lot! This is called few-shot learning.
 
    ![typed-testing](../assets/2023-02-02-prompting-gpt-to-code/typed-testing.png)
 
-3. We can go one step further, and [ask it to be the entire API](https://github.com/TheAppleTucker/backend-GPT/blob/main/backend/server.py). The dev has simply described Database State in JSON, api call, an app description, and given instructions to GPT to respond with JSON, and show the new state. The starting state seeds GPT with example data, and even though it isn’t specifically labeled as an example. GPT seems to know enough to return the right JSON when you query something. If you look at the code, even the parsing is done using GPT by replaying its own response and asking to return either the state or the. response.
-   This works surprisingly well! It even filters correctly if you do `GET /todolist/?completed=false`.
+3. We can go one step further, and [ask it to BE the entire API](https://github.com/TheAppleTucker/backend-GPT/blob/main/backend/server.py). The dev has simply described Database State in JSON, specified the api call to respond to[^api-call-format], an app description. He then gives general instructions to GPT to respond with JSON, and show the new state. The starting Database State seeds GPT with example data. Even though this isn’t specifically labeled as an example, GPT seems to know enough to return the right JSON when you query something. If you look at the code, even the parsing is done using GPT by replaying its own response and asking to return either the state or the response.
+   This works surprisingly well! It even filters correctly if you do `GET /todolist/?completed=false`. And there is an example for an entire chess engine built this way!
 
-```jsx
-This is a todo list app.
+   ```jsx
+   This is a todo list app.
 
-API Call (indexes are zero-indexed):
-/todolist/1
-Database State:
-{
-            "todos": [
-                {
-                    "title": "Learn react",
-                    "completed": true
-                },
-                {
-                    "title": "Buy Milk",
-                    "completed": true
-                },
-                {
-                    "title": "Do laundry",
-                    "completed": false
-                },
-                {
-                    "title": "Clean room",
-                    "completed": true
-                }
-            ]
-        }
-Output the API response prefixed with 'API response:'. Then output the new database state as json, prefixed with 'New Database State:'. If the API call is only requesting data, then don't change the database state, but base your 'API Response' off what's in the database.
-```
+   API Call (indexes are zero-indexed):
+   /todolist/1
+   Database State:
+   {
+               "todos": [
+                   {
+                       "title": "Learn react",
+                       "completed": true
+                   },
+                   {
+                       "title": "Buy Milk",
+                       "completed": true
+                   },
+                   {
+                       "title": "Do laundry",
+                       "completed": false
+                   },
+                   {
+                       "title": "Clean room",
+                       "completed": true
+                   }
+               ]
+           }
+   Output the API response prefixed with 'API response:'. Then output the new database state as json, prefixed with 'New Database State:'. If the API call is only requesting data, then don't change the database state, but base your 'API Response' off what's in the database.
+   ```
 
-TodoList is very common application, but it is still amazing how much implicit knowledge GPT knew without us being explicit about it.
+   A TodoList is very common application, but it is still amazing how much implicit knowledge GPT knew without us being explicit about it.
 
 ## **Browser manipulation**
 
@@ -178,3 +178,6 @@ The prompt is similar to ActGPT, but asks GPT to take the decision on what actio
 - It also helps to specify what you dont want, along with what you want.
 
 In my next post, I will try using some of these learnings to actually get GPT to write an end-to-end program.
+
+[^upg]: To get a sense of what could ultimately be possible with GPT, look at [UPG](https://github.com/gptlabs/tools/tree/canary/packages). They have an interface where GPT codes entire programs with you, works with you to make changes, writes it to a file and then executes it for you. However the prompt is hidden behind an API so we dont know what prompt they use.
+[^api-call-format]: This can be in any format. A REST API call, a graphql query, a python function. There is no predefined format specified for the API, so GPT will adapt its response to each request. You do need to setup you server to receive the requests, and encoded it as text though.
