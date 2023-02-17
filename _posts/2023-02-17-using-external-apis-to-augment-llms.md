@@ -57,9 +57,9 @@ You can see how it breaks down the problem in this more fleshed out example prov
 
 The difference in approach here is that, with each Tool (`Calculator` is a Tool in this setup), you need to provide a text description. The LLM uses this text description to figure out if it’s the right tool for the job, and it also guesses what to call it with. The example above shows the default Search Tool, but you can create custom Tools. All you need to do a provide a description and specify the "type" of the tool.
 
-![](https://media.giphy.com/media/doYuyYIEkAYPJYrwvM/giphy.gif){: .align-center}
-
 [Defining Custom Tools — 🦜🔗 LangChain 0.0.84](https://langchain.readthedocs.io/en/latest/modules/agents/examples/custom_tools.html)
+
+![](https://media.giphy.com/media/doYuyYIEkAYPJYrwvM/giphy.gif){: .align-center}
 
 ### Why is this interesting?
 
