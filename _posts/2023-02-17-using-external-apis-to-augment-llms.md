@@ -14,8 +14,6 @@ header:
   arweave_tx:
 ---
 
-# Using APIs to augment LLMS
-
 ## Why do we need to augment LLMs?
 
 We know that LLMs aren't always accurate. They do some kind of broad pattern matching, and get the general context good enough to be convincing. But, they bad at math or computational responses.
@@ -26,7 +24,7 @@ I want to explore ToolFormer and reAct, 2 ways augmenting LLMs to work with exte
 
 ## Toolformer
 
-### Summary
+### How does it work?
 
 Meta research recently shared ToolFormer, a tool to teach LLMs to call external APIs to augment its response. Here is a [nice summary](https://twitter.com/mathemagic1an/status/1624870248221663232) of what it does.
 
@@ -44,17 +42,24 @@ One of the main advances here seems to be that you can use a much smaller LLM li
 
 ## reAct
 
-There is also some overlap with the reAct framework. That also tries to get the LLM to answer `Two + Three = ` as `Calculator(2+3)`.
+### How does it work?
+
+There is also some overlap with the reAct framework, we are still trying to get the LLM to answer `Two + Three = ` as `Calculator(2+3)` but the approach is a bit different.
+
 You can see how it breaks down the problem in this more fleshed out example provided in the langchain implementation of reAct:
 
 [ReAct — 🦜🔗 LangChain 0.0.84](https://langchain.readthedocs.io/en/latest/modules/agents/implementations/react.html)
 
-The difference with reAct however, is that, with each Tool you need to provide a text description. The LLM uses this text description to figure out if it’s the right tool for the job, and it also guesses what to call it with. The example above shows the default Search Tool, but you can create custom Tools. All you need to do a provide a description and the type of tool it is.
+The difference in approach here is that, with each Tool (`Calculator` is a Tool in this setup), you need to provide a text description. The LLM uses this text description to figure out if it’s the right tool for the job, and it also guesses what to call it with. The example above shows the default Search Tool, but you can create custom Tools. All you need to do a provide a description and specify the "type" of the tool.
 
 [Defining Custom Tools — 🦜🔗 LangChain 0.0.84](https://langchain.readthedocs.io/en/latest/modules/agents/examples/custom_tools.html)
 
-The nice thing to notice here is that reAct is doing nested queries. Finding the answer to the first query, using that response to do the next query till it finds the answer.
+### Why is this interesting?
+
+The nice thing to notice from the complex examples above ("Author David Chanoff has collaborated with a U.S. Navy admiral who served as the ambassador to the United Kingdom under which President?") is that reAct is doing nested queries because it is considering the prompt as a whole. It breaks down the prompt, finds the the answer to the first query, using that response to do the next query till it finds the answer.
+
+ToolFormer isn't designed to do that, it's explicitly trained to specific words / tokens with API calls - but the point of ToolFormer is that it expects much less of the LLM it's working with. reAct will give you garbage unless the base LLM is very good.
 
 ## Conclusion
 
-I dont know of research comparing applying reAct vs toolformer applied to the same LLM, but I suspect that toolformer will do a better job, because you would need a much smarter model to figure out what API to call with what inputs based on the description alone.
+I dont know of research comparing applying reAct vs toolformer to a sophisticated LLM like GPT3 using the ToolFormer dataset (we dont want to test ToolFormer on nested queries, it's not designed for it). I suspect that toolformer will do a better job, because you would need a much smarter model to figure out what API to call with what inputs based on the description alone.
