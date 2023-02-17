@@ -4,7 +4,7 @@ layout: single
 excerpt: A quick dive into consensus mechanisms used in blockchains today.
 authors:
   - name: MadNeutrino
-    link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    link: https://github.com/madneutrino
   - name: Psyf
     link: https://twitter.com/psyf01
 tags: Consensus

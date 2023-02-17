@@ -3,7 +3,7 @@ title: 🪄 Prompting GPT to Write Code
 layout: single
 authors:
   - name: MadNeutrino
-    link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    link: https://github.com/madneutrino
 tags: AI
 last_modified_at: 2023-02-06
 header:
