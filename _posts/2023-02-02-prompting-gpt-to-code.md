@@ -1,4 +1,5 @@
 ---
+title: 🪄 Prompting GPT to Write Code
 layout: single
 authors:
   - name: MadNeutrino
@@ -6,15 +7,13 @@ authors:
 tags: AI
 last_modified_at: 2023-02-06
 header:
-  overlay_image: https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop
-  caption: "[**Unsplash**](https://unsplash.com)"
+  overlay_image: https://storage.googleapis.com/pai-images/7165ba56b7b749db8f2af150f7aac1bb.png
+  caption: playgroundai.com
   show_overlay_excerpt: false
   cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2023-02-02-prompting-gpt-to-code.md
   cta_label: "Edit on Github"
   arweave_tx:
 ---
-
-# Prompting GPT to write code
 
 ChatGPT’s ability to write code (in addition to an uncanny ability to “understand” what we are saying) has fascinated all of us the last couple months.
 
@@ -38,7 +37,7 @@ In this article, we will explore some attempts[^upg] to directly interface with 
 
 Let’s start with an example of someone using ChatGPT to create the html, js and css files of a website.
 
-[https://www.youtube.com/watch?v=ng438SIXyW4](https://www.youtube.com/watch?v=ng438SIXyW4)
+![](//www.youtube.com/watch?v=ng438SIXyW4?width=100&height=50)
 
 Compared to CoPilot, this is better interface for writing code from scratch. You dont have to write any code to prime the model. The prompts are quite straightforward and specify what is needed in English. The dev mentions specific technologies to use, asks for specific code snippets and ChatGPT gets it in the right ballpark. Most of the code is used as-is, but the dev does end up making some minor changes by hand.
 
@@ -48,47 +47,53 @@ A job board is a common website pattern and ChatGPT ought to have a lot of examp
 
 Can we ask GPT to generate JSON based on templates or examples?
 
-1. [This example](https://twitter.com/yoheinakajima/status/1617954171780747265?ref_src=twsrc^tfw|twcamp^tweetembed|twterm^1617954171780747265|twgr^|twcon^s1_&ref_url=notion%3A%2F%2Fwww.notion.so%2FCan-we-write-full-software-using-GPT-d7c64816b0d34554a8916ddd3777a1f1) uses a very simple prompt and a couple of example JSON to generate Zapier tasks (the examples arent shown but the prompt is). The generated JSON seems to have been imported fine into Zapier.
+### Basic
 
-   ![zapier-zap](../assets/2023-02-02-prompting-gpt-to-code/zapier-zap.png)
+[This example](https://twitter.com/yoheinakajima/status/1617954171780747265) uses a very simple prompt and a couple of example JSON to generate Zapier tasks (the examples arent shown but the prompt is). The generated JSON seems to have been imported fine into Zapier.
 
-2. [Here is a slightly more advanced approach](https://twitter.com/colinfortuner/status/1619558128772874245?s=46&t=SGTwwmdLIR_cbQuYZSSsrg). GPT is given a json **type**, and asked to generate Fake JSON for testing. You can see the instructions show examples only of the _format_ of correct and wrong answers with some guidance on JSON structure expected. I expect these fine tunings were in response to issues found while testing. Examples generally seem to help a lot! This is called few-shot learning.
+![zapier-zap](../assets/2023-02-02-prompting-gpt-to-code/zapier-zap.png)
 
-   ![typed-testing](../assets/2023-02-02-prompting-gpt-to-code/typed-testing.png)
+### Intermediate
 
-3. We can go one step further, and [ask it to BE the entire API](https://github.com/TheAppleTucker/backend-GPT/blob/main/backend/server.py). The dev has simply described Database State in JSON, specified the api call to respond to[^api-call-format], an app description. He then gives general instructions to GPT to respond with JSON, and show the new state. The starting Database State seeds GPT with example data. Even though this isn’t specifically labeled as an example, GPT seems to know enough to return the right JSON when you query something. If you look at the code, even the parsing is done using GPT by replaying its own response and asking to return either the state or the response.
-   This works surprisingly well! It even filters correctly if you do `GET /todolist/?completed=false`. And there is an example for an entire chess engine built this way!
+[Here is a slightly more advanced approach](https://twitter.com/colinfortuner/status/1619558128772874245?s=46&t=SGTwwmdLIR_cbQuYZSSsrg). GPT is given a json **type**, and asked to generate Fake JSON for testing. You can see the instructions show examples only of the _format_ of correct and wrong answers with some guidance on JSON structure expected. I expect these fine tunings were in response to issues found while testing. Examples generally seem to help a lot! This is called few-shot learning.
 
-   ```jsx
-   This is a todo list app.
+![typed-testing](../assets/2023-02-02-prompting-gpt-to-code/typed-testing.png)
 
-   API Call (indexes are zero-indexed):
-   /todolist/1
-   Database State:
-   {
-               "todos": [
-                   {
-                       "title": "Learn react",
-                       "completed": true
-                   },
-                   {
-                       "title": "Buy Milk",
-                       "completed": true
-                   },
-                   {
-                       "title": "Do laundry",
-                       "completed": false
-                   },
-                   {
-                       "title": "Clean room",
-                       "completed": true
-                   }
-               ]
-           }
-   Output the API response prefixed with 'API response:'. Then output the new database state as json, prefixed with 'New Database State:'. If the API call is only requesting data, then don't change the database state, but base your 'API Response' off what's in the database.
-   ```
+### :eyes:
 
-   A TodoList is very common application, but it is still amazing how much implicit knowledge GPT knew without us being explicit about it.
+We can go one step further, and [ask it to BE the entire API](https://github.com/TheAppleTucker/backend-GPT/blob/main/backend/server.py). The dev has simply described Database State in JSON, specified the api call to respond to[^api-call-format], an app description. He then gives general instructions to GPT to respond with JSON, and show the new state. The starting Database State seeds GPT with example data. Even though this isn’t specifically labeled as an example, GPT seems to know enough to return the right JSON when you query something. If you look at the code, even the parsing is done using GPT by replaying its own response and asking to return either the state or the response.
+This works surprisingly well! It even filters correctly if you do `GET /todolist/?completed=false`. And there is an example for an entire chess engine built this way!
+
+```jsx
+This is a todo list app.
+
+API Call (indexes are zero-indexed):
+/todolist/1
+Database State:
+{
+            "todos": [
+                {
+                    "title": "Learn react",
+                    "completed": true
+                },
+                {
+                    "title": "Buy Milk",
+                    "completed": true
+                },
+                {
+                    "title": "Do laundry",
+                    "completed": false
+                },
+                {
+                    "title": "Clean room",
+                    "completed": true
+                }
+            ]
+        }
+Output the API response prefixed with 'API response:'. Then output the new database state as json, prefixed with 'New Database State:'. If the API call is only requesting data, then don't change the database state, but base your 'API Response' off what's in the database.
+```
+
+A TodoList is very common application, but it is still amazing how much implicit knowledge GPT knew without us being explicit about it.
 
 ## **Browser manipulation**
 
