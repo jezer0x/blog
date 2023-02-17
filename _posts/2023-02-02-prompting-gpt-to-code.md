@@ -11,7 +11,7 @@ header:
   show_overlay_excerpt: false
   cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2023-02-02-prompting-gpt-to-code.md
   cta_label: "Edit on Github"
-  arweave_tx: 3AL7ra9ASfPwQ67dpIdL3nM1xsyDIziWK17U5XVFfbI
+  arweave_tx:
 ---
 
 # Prompting GPT to write code
