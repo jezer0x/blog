@@ -6,7 +6,7 @@ authors:
 tags: AI
 last_modified_at: 2023-02-17
 header:
-  overlay_image:
+  overlay_image: assets/2023-02-17-using-external-apis-to-augment-llms/abstract-image-of-an-artificial-intelligence-with-many-network-connections--824682760.png
   caption: "[**Unsplash**](https://unsplash.com)"
   show_overlay_excerpt: false
   cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2023-02-17-using-external-apis-to-augment-llms.md
