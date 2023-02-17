@@ -66,6 +66,6 @@ One of the most critical tools we used to stay on track were tripwires, a combin
 
 ## Conclusion
 
-Our experience with Barren Wuffet reinforced the importance of customer development, and we're now refocusing on this crucial step. We've learned that the cost of wasting time acquiring customers through subsidizing their adoption cost with VC money is much higher than the time spent validating a pain point by speaking with potential customers. Most of our problems above would have been address if we had started with interviewing potential traders.
+Our experience with Barren Wuffet reinforced the importance of customer development, and we're now refocusing on this crucial step. We've learned that the cost of wasting time acquiring customers through subsidizing their adoption cost with VC money is much higher than the time spent validating a pain point by speaking with potential customers. Most of our problems above would have been addressed if we had started with interviewing potential traders.
 
 ![](https://media.tenor.com/iDZGIqYsEEEAAAAS/fake-call-dialing.gif){: .align-center}
