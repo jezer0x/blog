@@ -113,6 +113,3 @@ DEPENDENCIES
   jekyll-twitter-plugin
   kramdown-parser-gfm
   webrick (~> 1.7)
-
-BUNDLED WITH
-   2.4.7
