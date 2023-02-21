@@ -52,7 +52,7 @@ There are mainly 2 reasons I had to use proxies in the system:
 1. The main contract was deploying child contracts, and I couldn't pack the child contract's bytecode into the main contract's without hitting limits.
 2. We wanted to be able to upgrade contracts without having to redeploy the whole system. (at least until we were out of Beta)
 
-Proxies are _confusing_ since there are different kinds that evolved over the years, with different use cases and tradeoffs and future consequences. OpenZeppelin has a [well written guide](https://docs.openzeppelin.com/contracts/4.x/api/proxy) but I'll be lying if I say I remember much. The annoying thing is that you have to be aware of the proxy pattern you're using (we were using Upgradable Beacon iirc), think through the workflows and then _change your contracts_ to fit the pattern. It's taking you away from the business logic you're trying to solve. It may be fun to learn, but definitely not fun to test. I believe the "Diamond Pattern" is in vogue now, but I didn't get the chance to use that (would overcomplicate things for no reason).
+Proxies are _confusing_ since there are different kinds that evolved over the years, with different use cases and tradeoffs and future consequences. OpenZeppelin has a [well written guide](https://docs.openzeppelin.com/contracts/4.x/api/proxy) but I'll be lying if I say I remember much. The annoying thing is that you have to be aware of the proxy pattern you're using (we were using Upgradable Beacon iirc), think through the workflows and then _change your contracts_ to fit the pattern. It's taking you away from the business logic you're trying to solve. It may be fun to learn, but definitely not fun to test. I believe the "Diamond Pattern" is in vogue now, but I didn't get the chance to use that (would over-complicate things for no reason).
 
 `diagram to show how crazy it got`
 
@@ -75,18 +75,18 @@ No clear answers!
 
 If you come from a web2 backend world, you're used to having a "superuser" who can do anything - mostly for fixing bugs. This is not the case in Ethereum. You can get to an abusive level of power with `onlyOwner` modifiers, but then would users use the product? You could decentralize the onlyOwner invocations with a DAO model, but would that have enough velocity to catch and fix bugs in the future?
 
-No easy answers here either. What we ended up doing is limiting the `onlyOwner` functions to the bare minimum - pausing during an attack, upgrading the contract logic (and make it in a largely opt-in way), and then designing a kind of "emergency" escape hatch for the community to use in case they feel this power is being abused (not implemented when we shut it down). We wanted to retain the ability to move fast (i.e. have a small multisig of devs who could trigger these), with plans to decentralize some things in the future (DAO), deprecate the upgradability (why would you need this if it's been stable for a while on mainnet?) and then finally remove the `onlyOwner` functions altogether.
+No easy answers here either. What we ended up doing is limiting the `onlyOwner` functions to the bare minimum - pausing during an attack, upgrading the contract logic (and make it in a largely opt-in way), and then designing a kind of "emergency" escape hatch for the community to use in case they feel this power is being abused (not implemented when we shut it down). We wanted to retain the ability to move fast (i.e. have a small multisig of devs who could trigger these), with plans to decentralize some things in the future (DAO), deprecate the upgrade-ability (why would you need this if it's been stable for a while on mainnet?) and then finally remove the `onlyOwner` functions altogether.
 
 Open a dialogue with your community and see what they are comfortable with.
 
 ### Test, Test and Test Some More
 
-I _hate_ writing tests. There was a running joke on the team - if you want psyf to be productive, ask him to write tests and he'll get everything else in the org done first just to avoid writing tests.
-Jokes aside, props to madneutrino for setting up the first set of tests and getting me to write more (even though a redesign made us remove EVERY TEST I HAD PAINSTAKINGLY WRITTEN...UGHHHH). Tests meant I was able to refactor the codebase and make changes (add/remove) with confidence that I did not break something.
+I _hate_ writing tests. There was a running joke on the team - if you want Psyf to be productive, ask him to write tests and he'll get everything else in the org done first just to avoid writing tests.
+Jokes aside, props to Madneutrino for setting up the first set of tests and getting me to write more (even though a redesign made us remove EVERY TEST I HAD PAINSTAKINGLY WRITTEN...UGHHHH). Tests meant I was able to refactor the codebase and make changes (add/remove) with confidence that I did not break something.
 
 ### Decimals...WHY?
 
-The amount of time me and madneutrino wasted on figuring out how to handle decimals makes me want to cry. Different popular ERC20s use different decimals, chainlink returns different decimals for each price feed, you have to account for both decimals when doing math like combining ETH/USD and UNI/USD to ETH/UNI. Different smart contracts expect different decimals when you send them limits for slippage. Do you lose resolution if you go through this workflow? Do your order of operations potentially make something go to zero in error? Are there tokens you can't handle? Can you handle events like the UST crash?
+The amount of time Madneutrino and I wasted on figuring out how to handle decimals makes me want to cry. Different popular ERC20s use different decimals, Chainlink returns different decimals for each price feed, you have to account for both decimals when doing math like combining ETH/USD and UNI/USD to ETH/UNI. Different smart contracts expect different decimals when you send them limits for slippage. Do you lose resolution if you go through this workflow? Do your order of operations potentially make something go to zero in error? Are there tokens you can't handle? Can you handle events like the UST crash?
 
 It's a confusing mess. I wish we had just used 18 decimals everywhere.
 
@@ -101,13 +101,13 @@ I discovered Uniswap v3's way of writing contracts for ERC20 and using WETH wrap
 
 Don't get me wrong. Chainlink is awesome and has powered a lot of the DeFi infrastructure. Their integration guides are nice and easy.
 BUT, the contract has to know which contract to call to get ETH/USD, and which to call to get UNI/USD and so on...So you have to spend all that gas saving this into your contract and having a way to upgrade these.
-Chainlink has rolled out a [Feed Registry](https://docs.chain.link/data-feeds/feed-registry) so the contract can query at runtime, but I have zero idea why this is only available on Etherum Mainnet. So now I have to write this extra contract to act as the chainlink registry when I deploy on other L2s (we were going to do this on Abitrum, and then mainnet/optimisim/otherL2s later).
+Chainlink has rolled out a [Feed Registry](https://docs.chain.link/data-feeds/feed-registry) so the contract can query at runtime, but I have zero idea why this is only available on Etherum Mainnet. So now I have to write this extra contract to act as the chainlink registry when I deploy on other L2s (we were going to do this on Arbitrum, and then mainnet/Optimism/otherL2s later).
 
 WHY??!
 
 ### Gelato Is Delicious
 
-I initially nerdsniped myself into the project by thinking about "good MEV" and how to align incentive mechanisms so that an IFTTT ecosystem could have strong guarantees. Ultimately, I caved in and just assumed we were going to use Gelato to start off.
+I initially nerd-sniped myself into the project by thinking about "good MEV" and how to align incentive mechanisms so that an IFTTT ecosystem could have strong guarantees. Ultimately, I caved in and just assumed we were going to use Gelato to start off.
 Their docs were awesome and the devs in the discord were helpful. I was able to get a working prototype up and running in a few hours!
 
 2 things I didn't like about using them:
@@ -129,16 +129,16 @@ Perhaps this problem was exacerbated by my timing, but deploying to testnet was 
 
 ### Decentralized Price Feeds For Frontend
 
-For all the hulla-balloo about decentralizing frontends that I've been hearing forever, I was really surprised when I couldn't find a decentralized price feed to show to the traders (think TradingView Charts on the frontend, marked by their positions and drawings).
-ALL the options were centralized, and were too expensive for a beta launch, and had terrible granularity (once per 5 mins? really?). I'm talking spot prices, not even OHLC or something fancier. We have chainlink prices every block, why can't we just make a subgraph on the graph? We have DEXs with subgraphs, why can't they have prices? (sometimes one of a few of these things did exist, but NOT FOR L2s. UGH!). Why can I not easily delpoy the code of a subgraph to a different chain? Why can't I build on top of a subgraph's output without reindexing the entire chain?
+For all the hullaballoo about decentralizing frontends that I've been hearing forever, I was really surprised when I couldn't find a decentralized price feed to show to the traders (think TradingView Charts on the frontend, marked by their positions and drawings).
+ALL the options were centralized, and were too expensive for a beta launch, and had terrible granularity (once per 5 mins? really?). I'm talking spot prices, not even OHLC or something fancier. We have Chainlink prices every block, why can't we just make a subgraph on the graph? We have DEXs with subgraphs, why can't they have prices? (sometimes one of a few of these things did exist, but NOT FOR L2s. UGH!). Why can I not easily deploy the code of a subgraph to a different chain? Why can't I build on top of a subgraph's output without re-indexing the entire chain?
 
-Shoutout to my homies at Coingecko and Defillama for giving us free access to their APIs so we could at least keep building.
+Shout-out to my homies at Coingecko and DefiLlama for giving us free access to their APIs so we could at least keep building.
 
 ### Why Are Audits So Expensive?
 
 Of course, being our first novel smart contract system, we wanted to make sure it was audited by someone more experienced. We used our experience, lessons learnt from Ethernaut, integrating knowledge of hacks we saw, and tools like Slyther and Mythril to get "audit ready". Yet, audits costs would be so prohibitively expensive (6 figures!) that we'd definitely not be able to do that without VC money or launching a token (neither of which we wanted to do at this point in time).
 
-I'm not sure why 6 figure audits are a thing. Was that because of the bull market? It also looks like that auditor incentives are not aligned with the protocol's - auditors don't pay anything (except perhaps with reputation currency) in the case of a hack. Our strategy was to do a controlled launch (limited users, limited money that they could put in), until we had enough money to pay for an audit. We also planned on rolling out a small bug bounty right from the alpha release to incentivize people to find bugs. If I was doing it now, I'd probably be using GPT3 a bit for security analysis. A team (fortephy) has already done some work on using AI to do audits much cheaper. I'd probably talk to people from the Code4rena community to see if they could help us out as well.
+I'm not sure why 6 figure audits are a thing. Was that because of the bull market? It also looks like that auditor incentives are not aligned with the protocol's - auditors don't pay anything (except perhaps with reputation currency) in the case of a hack. Our strategy was to do a controlled launch (limited users, limited money that they could put in), until we had enough money to pay for an audit. We also planned on rolling out a small bug bounty right from the alpha release to incentivize people to find bugs. If I was doing it now, I'd probably be using GPT3 a bit for security analysis. A team ([Fortephy](https://www.fortephy.com/)) has already done some work on using AI to do audits much cheaper. I'd probably talk to people from the Code4rena community to see if they could help us out as well.
 
 ## Frontend
 
@@ -171,7 +171,7 @@ Similarly, you have to curate a list of addresses that are related to your proto
 
 One of the biggest surprises in my short dev career is how nice devs can be.
 Uniswap was one of my first protocol integrations and I was having quite some trouble different aspects (especially with LP-ing). I was able to get help from CryptoRachel on their discord.
-I was similarly having trouble with the GMX integration, and itburnz was able to help me out. Itburnz has since become a friend of the project and joined our discord. I've mentioend Gelato, Defillama and coingecko before.
+I was similarly having trouble with the GMX integration, and Itburnz was able to help me out. Itburnz has since become a friend of the project and joined our discord. I've mentioned Gelato, DefiLlama and coingecko before.
 I've also had the pleasure of taking help from various individuals who joined our twitter and startups that agreed to let us test their product for free (shout out to fortephy and \_ )
 On the flip side, I've stopped working on some integrations and products because nobody answered my questions.
 
