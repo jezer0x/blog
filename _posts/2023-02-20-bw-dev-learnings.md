@@ -54,7 +54,7 @@ There are mainly 2 reasons I had to use proxies in the system:
 
 Proxies are _confusing_ since there are different kinds that evolved over the years, with different use cases and tradeoffs and future consequences. OpenZeppelin has a [well written guide](https://docs.openzeppelin.com/contracts/4.x/api/proxy) but I'll be lying if I say I remember much. The annoying thing is that you have to be aware of the proxy pattern you're using (we were using Upgradable Beacon iirc), think through the workflows and then _change your contracts_ to fit the pattern. It's taking you away from the business logic you're trying to solve. It may be fun to learn, but definitely not fun to test. I believe the "Diamond Pattern" is in vogue now, but I didn't get the chance to use that (would overcomplicate things for no reason).
 
-<diagram to show how crazy it got>
+`diagram to show how crazy it got`
 
 ### What Should The Contract Do?
 
