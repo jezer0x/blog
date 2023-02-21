@@ -1,5 +1,5 @@
 ---
-title: 📜
+title: 📜 Barren Wuffet - Technical Learnings
 layout: single
 authors:
   - name: psyf
