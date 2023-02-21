@@ -52,7 +52,7 @@ There are mainly 2 reasons I had to use proxies in the system:
 1. The main contract was deploying child contracts, and I couldn't pack the child contract's bytecode into the main contract's without hitting limits.
 2. We wanted to be able to upgrade contracts without having to redeploy the whole system. (at least until we were out of Beta)
 
-Proxies are _confusing_ since there are different kinds that evolved over the years, with different use cases and tradeoffs and future consequences. OpenZeppelin has a [well written guide](https://docs.openzeppelin.com/contracts/4.x/api/proxy) but I'll be lying if I say I remember much. The annoying thing is that you have to be aware of the proxy pattern you're using (we were using Upgradable Beacon iirc), think through the workflows and then _change your contracts_ to fit the pattern. It's taking you away from the business logic you're trying to solve. It may be fun to learn, but definitely not fun to test. I believe the "Diamond Pattern" is in vogue now, but I didn't get the chance to use that (would over-complicate things for no reason).
+Proxies are _confusing_ since there are different kinds that evolved over the years, with different use cases and tradeoffs and future consequences. OpenZeppelin has a [well written guide](https://docs.openzeppelin.com/contracts/4.x/api/proxy) but I'll be lying if I say I remember much. The annoying thing is that you have to be aware of the proxy pattern you're using (we were using Upgradable Beacon), think through the workflows and then _change your contracts_ to fit the pattern. Proxies separate the contract logic and data store; And this can have serious security implications if not handled carefully. It takes you away from the business logic you're trying to solve. It may be fun to learn, but definitely not fun to test. I believe the "Diamond Pattern" is in vogue now, but I didn't get the chance to use that (would over-complicate things for no reason).
 
 `diagram to show how crazy it got`
 
@@ -62,10 +62,10 @@ If gas was free (i.e. the EVM was infinitely scalable), this woudln't be somethi
 Smart Contracts are for replacing trusted third parties. They are not "just a database". They are for enforcing rules in a system, for which they need to store a minimum set of data. This minimum set of data will also be used by the frontend to display information to the user.
 However, you get into the problem of third party dependency again here.
 
-Let's take an example to illustrate the problem better. In Barren Wuffet, fund managers would be able to create IFTTT rules for the future, which would be automatically executed in the future. Now, EVM doesn't have an automatic TX execution hook like that (Cosmos SDK does), so someone has to send a TX to trigger the execution. The smart contract has to make sure whatever is being triggered matches the IFTTT rule the fund manager specified (otherwise the fund manager would have to run a bot to do it, mooting the whole point of an IFTTT system). To do this, the smart contract has to store some info as "proof". There are 2 ways of doing this:
+Let's take an example to illustrate the problem better. In Barren Wuffet, fund managers would be able to create IFTTT rules for the future, which would be automatically executed in the future. Now, EVM doesn't have an automatic TX execution hook like that (Cosmos SDK does), so someone (infact, anyone if you want the contract to be decentralized) has to send a TX to trigger the execution. The smart contract has to make sure whatever is being triggered matches the IFTTT rule the fund manager specified (otherwise a whitelisted bot run by the fund manager will have to do it, which defeats the point of the setup [^permissioned-bot]). To do this, the smart contract has to store some info verify the rule that's being executed. There are 2 ways of doing this:
 
-1. Smart Contract stores the entire IFTTT rule with all its triggers, actions and their parameters and gives back an identifier for this rule. Later, someone can send a TX saying `execute(id)`. Smart Contract would lookup in a mapping `id => IFTTTRule`, check that on-chain trigger conditions are met and execute the actions. Frontend would only have to be aware of the id. This incurs extra gas cost at rule creation time.
-2. Smart Contract stores the hash of the IFTTT rule (essentially a unique identifier). When some bot thinks it's time to execute the rule, it sends a TX saying `execute(IFTTTRUle)` and the smart contract checks that the hash of the IFTTT rule matches the hash it has stored. Frontend would have to be aware of the entire IFTTT rule. This incurs extra gas cost at execution time. This is more akin to the "UTXO model" of Bitcoin/Cardano.
+1. Smart Contract stores the entire IFTTT rule with all its triggers, actions and their parameters and gives back an identifier for this rule. Later, someone can send a TX saying `execute(id)`. Smart Contract would lookup in a mapping `id => IFTTTRule`, check that on-chain trigger conditions are met and execute the actions. Frontend would only have to be aware of the id. This incurs extra gas cost at rule creation time because we are storing the entire rule in the contract.
+2. Smart Contract stores _a hash_ of the IFTTT rule (essentially a computable unique identifier). When some bot thinks it's time to execute the rule, it sends a TX saying `execute(IFTTTRUle)` and the smart contract just checks that the hash of the IFTTT rule matches the hash it has stored. Frontend would have to be aware of the entire IFTTT rule (it would read this from the events emitted by the contract). This incurs extra gas cost at execution time because we are sending the entire rule as calldata to the contract. This is more akin to the "UTXO model" of Bitcoin/Cardano.
 
 In both these cases, you need to think about "data availability". Do you expect frontends to keep track of the entire history of the contract and lookup/reconstruct the data? Do you use something like `The Graph` that the frontend queries? What happens if `The Graph` goes down? (see more below). Does the gas cost economics make sense for the use case?
 
@@ -82,13 +82,25 @@ Open a dialogue with your community and see what they are comfortable with.
 ### Test, Test and Test Some More
 
 I _hate_ writing tests. There was a running joke on the team - if you want Psyf to be productive, ask him to write tests and he'll get everything else in the org done first just to avoid writing tests.
-Jokes aside, props to Madneutrino for setting up the first set of tests and getting me to write more (even though a redesign made us remove EVERY TEST I HAD PAINSTAKINGLY WRITTEN...UGHHHH). Tests meant I was able to refactor the codebase and make changes (add/remove) with confidence that I did not break something.
+Jokes aside, props to Madneutrino for setting up the first set of tests and getting me to write more (even though a redesign made us remove EVERY TEST I HAD PAINSTAKINGLY WRITTEN...UGHHHH). Tests meant I was able to refactor the codebase and make changes (add/remove) with confidence that I did not break something - especially when it came to large scale refactors involving proxies and contract size.
+
+Tests with very high coverage are particularly important with smart contracts because they are immutable (barring doors you create for yourself using proxies). Bugs can be expensive, and the entire contract is open for anyone to exploit.
+
+The setup / teardown tools provided by hardhat make it easy to instantiate and test the contracts easily. It even gives you information about where in the smart contract the errors happened. You will have to use console.logs to troubleshoot though.
+
+### Debuggability
+
+It's useful to write good error messages and define every error scenario in a smart contract. Tests that verify the specific error messages in error scenarios are useful here. Once it goes to production, there is no stack trace, since you dont control the backend. You only get the text of the error message you throw.
+
+THis can be quite important even if you are contract is functioning fine, you still need to figure out what's going on when your front end inevitably sends some buggy data to the testnet, and you want to know why on earth the tx reverted!
 
 ### Decimals...WHY?
 
 The amount of time Madneutrino and I wasted on figuring out how to handle decimals makes me want to cry. Different popular ERC20s use different decimals, Chainlink returns different decimals for each price feed, you have to account for both decimals when doing math like combining ETH/USD and UNI/USD to ETH/UNI. Different smart contracts expect different decimals when you send them limits for slippage. Do you lose resolution if you go through this workflow? Do your order of operations potentially make something go to zero in error? Are there tokens you can't handle? Can you handle events like the UST crash?
 
-It's a confusing mess. I wish we had just used 18 decimals everywhere.
+It's a confusing mess. I wish we had just used 18 decimals everywhere. But then again, the front end user doesnt want to see 18 decimals of everything. Infact they mostly want to see values in USD (or maybe ETH). So your significant figures translations have to be rock solid.
+
+We wrote a lot of utils to handle this (feel free to use them). You can also find similar ones in other defi contracts that handle swaps.
 
 ### Can we just all agree to use WETH please?
 
@@ -97,7 +109,7 @@ I discovered Uniswap v3's way of writing contracts for ERC20 and using WETH wrap
 
 ## Infra and Tooling
 
-### Chainlink, where's the Feed Regsitry on Arbitrum Bro?
+### Chainlink, where's the Feed Registry on Arbitrum Bro?
 
 Don't get me wrong. Chainlink is awesome and has powered a lot of the DeFi infrastructure. Their integration guides are nice and easy.
 BUT, the contract has to know which contract to call to get ETH/USD, and which to call to get UNI/USD and so on...So you have to spend all that gas saving this into your contract and having a way to upgrade these.
@@ -127,6 +139,8 @@ Perhaps this problem was exacerbated by my timing, but deploying to testnet was 
 2. The Ropsten, Rinkeby and Kovan nets were being deprecated, and everyone hadn't moved over properly to Goerli yet.
 3. Getting Goerli ETH was such a pain. Faucets were clogged or drained, and I had to waste multiple hours of my time and several days of CPU cycles to get enough testnet ETH. Not cool.
 
+The decentralized community is incentivised to perform various actions on the mainnet (LP, nodes). Who has an incentive to run testnet nodes? It has to be the centralized players behind the smart contracts. Noone cares enough to deploy contracts to arbitrum-goerli, so they test on eth-goerli. But USDT-ETH is empty, and 1 ETH is a million DAI. Also, there are subtle differences between arbitrum-goerli and eth-goerli; So when you are building a contract that interfaces with many other contracts, you are necessarily doing a bit of testing in production.
+
 ### Decentralized Price Feeds For Frontend
 
 For all the hullaballoo about decentralizing frontends that I've been hearing forever, I was really surprised when I couldn't find a decentralized price feed to show to the traders (think TradingView Charts on the frontend, marked by their positions and drawings).
@@ -141,6 +155,20 @@ Of course, being our first novel smart contract system, we wanted to make sure i
 I'm not sure why 6 figure audits are a thing. Was that because of the bull market? It also looks like that auditor incentives are not aligned with the protocol's - auditors don't pay anything (except perhaps with reputation currency) in the case of a hack. Our strategy was to do a controlled launch (limited users, limited money that they could put in), until we had enough money to pay for an audit. We also planned on rolling out a small bug bounty right from the alpha release to incentivize people to find bugs. If I was doing it now, I'd probably be using GPT3 a bit for security analysis. A team ([Fortephy](https://www.fortephy.com/)) has already done some work on using AI to do audits much cheaper. I'd probably talk to people from the Code4rena community to see if they could help us out as well.
 
 ## Frontend
+
+### Typing: Coding once is for n00bs, you got to do it twice to really learn
+
+You have written your contracts, and you have the abi. How do you use them in your frontend?
+Oh but first, we have to write those tests in typescript right? How do we handle calls to the contract, without going back and forth to figure out the exact functions and calldata? `hardhat-ethers` makes this as easy as `<contract>.connect(<wallet>).<fnname>(<data>)` and you have nice autocomplete available if you type the contract properly thanks to typechain.
+
+But when you come to the front end, you cant simply copy paste this code you so painstakingly wrote, because `hardhart-ethers` is not a front end thing, because well, you arent using hardhat.
+
+This is where it gets a bit painful on 2 counts:
+
+1. If you are writing truly reactive code, using say `react-query` to read from an RPC, and `wagmi`'s `usePrepareContractWrite` and `useContractWrite` flows, you need to ditch all the `awaits` from the tests. I think this is excellent practice, as it forces you to limit your async code and extract out the non-async code as functional components. We didnt quite do that in our tests so some refactoring was in order.
+
+2. The bigger problem though was the typing. We couldnt get the `typechain` interfaces to play well with wagmi, which only accepts ABIs. The best way to do this is to convert your json abi files (from the `artifacts` folder) into `ts` files and then load the abi into `usePrepareContractWrite`. You then get static type-checking, but it is subtly different from the `typechain` interface (which has a lot of utility functions especially when it comes to things like enums). And so you resign to your fate of re-organizing the tests you already wrote to fit into the front end.
+   But hey you learn to write disciplined functional code in the process. Win some, lose some, right? [^copilot]
 
 ### Writing TXs != POST
 
@@ -180,3 +208,6 @@ What I've found is as long as you are nice and respectful, describe the problem 
 ### Having Usable, Upto Date Documentation is Important
 
 This should be really self-explanatory for any open-source project, and even more so for a protocol. I won't belabour this, other than the fact that it inspired me to create [https://barren-wuffet.gitbook.io/barren-wuffet/](https://barren-wuffet.gitbook.io/barren-wuffet/) and think about how to structure it for various audiences.
+
+[^permissioned-bot]: If the fund manager is whitelisted to run a bot to execute the trigger, that means they have to run special infrastructure to use the system which makes their lives harder. It also means, we can trust whatever the whitelisted bot does, so the bot can handle the IFTTT triggers and we dont have to do this in-contract so the entire architecture will be different.
+[^copilot]: Here I must thank CoPilot for easing my burden somewhat, this is exactly the kind of thing humans shouldnt be doing.
