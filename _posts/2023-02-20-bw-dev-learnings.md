@@ -212,8 +212,14 @@ This is where it gets a bit painful on 2 counts:
 
 ### Writing TXs != POST
 
-Writing TX to a blockchain have a lag, and it's not like your usual HTTP POST call. So your UI needs to capture all the error states properly.
-[WAGMI](https://wagmi.sh/) helps you handle all this well in React Hooks.
+Writing TX to a blockchain is all async, so it's not like your usual HTTP POST call. When you send a tx, you have to wait for it to be mined, and then you want to wait for the block to be confirmed. This process could take a while and the UI needs to reflect that.
+
+This gets particularly complicated when the first tx needs to be followed up with a second tx (create a fund, set rules for the fund after you create it). You need to make sure that the second tx is sent only after the first tx is confirmed. You could let the user operate on an expected state meanwhile, but you might end up having to revert the state if the first tx fails.
+
+The graph also only returns data from confirmed txes, you would need to store these pending state in local storage, and merge them with the graph data if the page gets refreshed.
+If the user opens the app in a different browser, they wont see this unconfirmed data. The UI needs to make sure that the user is aware of this.
+
+[WAGMI](https://wagmi.sh/) helps you handle some of these state changes using React Hooks, but the UX around this takes some thought.
 
 ![](https://media.giphy.com/media/4FT4I2eg2zVkUHe7wz/giphy.gif){: .align-center}
 
