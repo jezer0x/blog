@@ -24,7 +24,7 @@ description: "A team of technology enthusiasts coming together to study, explore
 domain: jezer0x.com
 url: https://jezer0x.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 repository: jezer0x/blog # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser: # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser: /assets/mascot_w_trans.png # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo: /assets/mascot_w_trans.png # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title: # overrides the website title displayed in the masthead, use " " for no title
 breadcrumbs: false
@@ -86,7 +86,7 @@ facebook:
   username:
   app_id:
   publisher:
-og_image: # Open Graph/Twitter default site image
+og_image: /assets/mascot_w_trans.png # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -103,9 +103,9 @@ analytics:
 
 # Site Author
 author:
-  name: "Your Name"
+  name: "Jezer0x"
   avatar: # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio: "I am an **amazing** person."
+  bio: ""
   location: "Somewhere"
   email:
   links:
