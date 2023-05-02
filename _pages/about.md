@@ -11,7 +11,7 @@ header:
 #   arweave_tx: 3AL7ra9ASfPwQ67dpIdL3nM1xsyDIziWK17U5XVFfbI
 ---
 
-We co-founded and exited Klinify, a digital medical assistant for primary care professionals to provide better care to patients. We helped clinics organize their medical data, created workflows to streamline inventory and claims processes, increased drug adherence through better followups, built analytics tools for pharmaceuticals to provide targeted support to doctors.
+We co-founded and exited Klinify, a digital medical assistant for primary care professionals to provide better care to patients. We helped clinics organize their medical data, created workflows to streamline inventory and claims processes, increased drug adherence through better followups, built analytics tools for pharmaceuticals to provide targeted support to doctors. Across Malaysia, Klinify serves 1500 doctors and 4 million patients annually.
 
 Since leaving Klinify ~1 year ago, we've been working on Jezer0x. We spent time building our understanding of various long-term technologies such as blockchain, LLMs and healthspan. We then used our knowledge to build several open source tools, consult on projects, and write blog posts to share our learnings.
 
