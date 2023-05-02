@@ -21,7 +21,7 @@ We're currently working on [Sang.bio](https://sang.bio). We want to make D2C dia
 
 You can find me on [LinkedIn](https://www.linkedin.com/in/skrishanthan/) and [Twitter](https://twitter.com/krenzx).
 
-## Nishanth Sudarshanam
+## Nishanth Sudharsanam
 
 You can find me on [LinkedIn](https://www.linkedin.com/in/nishanth-sudharsanam-6a861913/), [Twitter](https://twitter.com/nishthege) and [Github](https://github.com/madneutrino).
 
