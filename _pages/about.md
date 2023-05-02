@@ -17,7 +17,7 @@ Since leaving Klinify ~1 year ago, we've been working on Jezer0x. We spent time 
 
 We're currently working on [Sang.bio](https://sang.bio). We want to make D2C diagnostics accessible in SEA to accelerate healthspan growth.
 
-## Krishanathan Surendran
+## Krishanthan Surendran
 
 You can find me on [LinkedIn](https://www.linkedin.com/in/skrishanthan/) and [Twitter](https://twitter.com/krenzx).
 
