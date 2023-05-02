@@ -27,7 +27,7 @@ In this article, we’ll look at the major biomarkers and how they might help in
 - periodically adjusting the plan as we gather more data
 - optimizing nutrition as a multiplier,
 
-> This is a cross post from [Sang.bio](Sang.bio).
+> This is a cross post from [Sang.bio](https://sang.bio).
 
 ## Designing a Customized Exercise Plan
 

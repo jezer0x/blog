@@ -1,11 +1,9 @@
 # main links
 main:
+  - title: "About"
+    url: /about/
   - title: "Discord"
     url: https://discord.gg/jkBF9mpQ6w
-  - title: "Twitter"
-    url: https://twitter.com/jezer0x
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
