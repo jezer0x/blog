@@ -1,16 +1,16 @@
 ---
-title: Does FlutterFlow save time with prototyping?
+title: 🦋 Does FlutterFlow save time with prototyping?
 layout: single
 authors:
   - name: MadNeutrino
     link: https://github.com/madneutrino
 tags: Development
-last_modified_at: 2023-02-20
+last_modified_at: 2023-06-23
 header:
   overlay_image: https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80
   caption: unsplash.com
   show_overlay_excerpt: false
-  cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2023-02-20-bw-dev-learnings.md
+  cta_url: https://github.com/jezer0x/blog/blob/main/_posts/2023-06-23-using-flutterflow-to-prototype.md
   cta_label: "Edit on Github"
   arweave_tx:
 ---
@@ -32,7 +32,7 @@ To prototype our [new app](www.sang.bio), we decided to use [FlutterFlow](www.fl
 - Since CoPilot, I have become VERY LAZY about writing code. Especially UI code.
 
 > ⚠ **Caveat**
-> Soon after we started, we realized that we could get away with a web app initially and speed up iteration. No problem, flutter has a browser target now. It works.. but I don't think it is a good idea to use Flutter for webapps. That's not what it was built for, and it manifests in subtle ways in terms of the tooling available (you cant create a simple hyperlink for example).
+> Soon after we started, we realized that we could get away with a web app initially and speed up iteration. No problem, flutter has a browser target now. It works.. but I don't think it is a good idea to use Flutter for webapps. That's not what it was built for, and it manifests in subtle ways (For example, you cant create a simple hyperlink using Flutter).
 
 ## Did it save time?
 
@@ -50,7 +50,7 @@ Features that you know can be done quickly in code, but require you to fiddle ar
 
 FF does offer some ability to write _custom code_ as functions, but the editor is quite annoying. Copy pasting is janky, error checking is janky, you can't import packages into the function [^noimports], plus no CoPilot (_Tab_ _tab_ why doesnt it read my mind?! ARGH).
 
-[Screenshot]
+![No Imports](../assets/2023-06-23-using-flutter-flow-to-prototype/1-no-imports.png){: .align-center}
 
 Some examples of when you'd just want to switch to VS Code:
 
@@ -59,33 +59,37 @@ Some examples of when you'd just want to switch to VS Code:
   - If you have group-by like queries, you need to write a custom function to serve as the data source.
   - If you want to merge multiple lists to display something, you need to create a container per query which results in a lot of boilerplate code.
 
-[Screeshot]
+![Only one query allowed](../assets/2023-06-23-using-flutter-flow-to-prototype/2-only-one-query.png){: .align-left}
+![Containers for more queries](../assets/2023-06-23-using-flutter-flow-to-prototype/3-create-containers-for-query.png){: .align-right}
 
-- Most fields in the UI don't values from a variable. It was super easy to get the biomarkers graph up and running. But when I wanted to dynamically generate the number of lines on the graph, you can't do this in FF. The number of lines has to be decided beforehand. You cant even use custom functions for this, you need to edit the component in code.
+- Some fields in the UI don't take values from a variable. It was super easy to get the biomarkers graph up and running. But when I wanted to dynamically generate the number of lines on the graph, you can't do this in FF. The number of lines has to be decided beforehand. You cant even use custom functions for this, you need to edit the component in code.
 
-[Screenshot]
+![Hardcoded datasets](../assets/2023-06-23-using-flutter-flow-to-prototype/4-hardcode-num-datasets.png){: .align-left}
+![Hardcoded graph options](../assets/2023-06-23-using-flutter-flow-to-prototype/5-hard-coded-graph-options.png){: .align-right}
+
+> I am not sure why the FF devs didn't simply allow all fields where the datatype is known to be set by a variable. It means no preview sure, but that seems like a fair trade-off.
 
 ### UI Nitpicks (that will probably get fixed soon)
 
 - Ordering widgets on the UI is quite annoying, especially if you try to move a widget to the end of a list, it has a tendency to go "inside" the last one.
 
-[Screenshot]
+![I want to move the row out of the card!](../assets/2023-06-23-using-flutter-flow-to-prototype/6-cant-move-raw-details-after-card.png){: .align-center}
 
 - This one was probably a bug, but it was frustrating nevertheless. It was super easy to create a toggle-able star icon. But for some reason the toggle value box didn't work. So I couldnt set any value to the toggle. Null values produce an error, and when there is an error anywhere you cant export code from FF. So I cant fix it myself either. So I had to redo the thing as a button and change it to a toggle after exporting. Not fun.
 
-[Screenshot]
+![ToggleIcon is broken](../assets/2023-06-23-using-flutter-flow-to-prototype/7-cant-set-toggleicon-value.png){: .align-center}
 
 ### Firestore Limitations
 
 - You will want to overwrite the Firestore deployed by FF, because the rules FF allows you to create are pretty basic (you can't have a rule that matches based on logged in email for example). But after this, FF will forever try to delete your changes, so you cannot deploy rules from FF anymore. You can still copy paste from FF. Just make sure to use the "AFTER" tab. The diff tab oddly doesn't allow you to copy
 
-[Screenshot]
+![Dont delete my rules!](../assets/2023-06-23-using-flutter-flow-to-prototype/8-dont-delete-my-rules.png){: .align-center}
 
 ### Miscellaneous
 
-- Integers keep getting swapped to double. So everytime I import changes, a bunch of 40 becomes 40.0 and a bunch of 40.0 becomes 40. Havent been able to isolate the pattern yet - but it does create a lot of noise when you try to merge the changes.
+- This is a fun one. If you copy the code from the "Code" tab, all the numbers are integers. But if you download the code, they are doubles. I am guessing they run their linter before the download. So, if you generally export the entire code base, but sometimes want to do a quick copy paste of the updated Widget code, have fun merging!
 
-[Screenshot]
+![Int or double?](../assets/2023-06-23-using-flutter-flow-to-prototype/9-int-or-double.png){: .align-center}
 
 ### Code Quality
 
@@ -97,7 +101,9 @@ Generally speaking, I dont have the urge to rewrite all the code so that's a goo
 
 - The styling however is a royal mess of repeated Padding wrappers that I need to clean up. I suspect I could have used Theme Widgets properly to avoid this. But once I setup a Design Libary, the entire UX around theming got too confusing that I gave up. Now I understand it better, but it's a too late to do on FF. I cannot find a way to create a CustomTextInput and do a project-wide find and replace in FF. Maybe I will do it in code later, once I get a deeper understanding of how layout works in Flutter (it seems different from CSS).
 
-[Screenshot]
+![Padding, and more padding](../assets/2023-06-23-using-flutter-flow-to-prototype/10-padding-and-padding.png){: .align-center}
+
+![Wheeee](../assets/2023-06-23-using-flutter-flow-to-prototype/11-bracket-bracket.png){: .align-center}
 
 ## Recommendations
 
