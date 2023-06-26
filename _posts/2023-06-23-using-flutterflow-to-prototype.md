@@ -61,15 +61,19 @@ The flutter flow list views are setup to query firebase using a **single** query
 - If you have group-by like queries, you need to write a custom function to serve as the data source.
 - If you want to merge multiple lists to display something, you need to create a container per query which results in a lot of boilerplate code.
 
-![Only one query allowed](../assets/2023-06-23-using-flutter-flow-to-prototype/2-only-one-query.png){: .align-left width="300px"}
-![Containers for more queries](../assets/2023-06-23-using-flutter-flow-to-prototype/3-create-containers-for-query.png){: .align-right width="300px"}
+![Only one query allowed](../assets/2023-06-23-using-flutter-flow-to-prototype/2-only-one-query.png){: .align-left width="320px"}
+![Containers for more queries](../assets/2023-06-23-using-flutter-flow-to-prototype/3-create-containers-for-query.png){: .align-right width="320px"}
+
+{: .cf}
 
 #### Dynamic component paramenters
 
 Some fields in the UI don't take values from a variable. It was super easy to get the biomarkers graph up and running. But when I wanted to dynamically generate the number of lines on the graph, you can't do this in FF. The number of lines has to be decided beforehand. You cant even use custom functions for this, you need to edit the component in code.
 
-![Hardcoded datasets](../assets/2023-06-23-using-flutter-flow-to-prototype/4-hardcode-num-datasets.png){: .align-left width="300px"}
-![Hardcoded graph options](../assets/2023-06-23-using-flutter-flow-to-prototype/5-hard-coded-graph-options.png){: .align-right width="300px"}
+![Hardcoded datasets](../assets/2023-06-23-using-flutter-flow-to-prototype/4-hardcode-num-datasets.png){: .align-left width="340px"}
+![Hardcoded graph options](../assets/2023-06-23-using-flutter-flow-to-prototype/5-hard-coded-graph-options.png){: .align-right width="340px"}
+
+{: .cf}
 
 > I am not sure why the FF devs didn't simply allow all fields where the datatype is known to be set by a variable. It means no preview sure, but that seems like a fair trade-off.
 
@@ -77,17 +81,17 @@ Some fields in the UI don't take values from a variable. It was super easy to ge
 
 - Ordering widgets on the UI is quite annoying, especially if you try to move a widget to the end of a list, it has a tendency to go "inside" the last one.
 
-![I want to move the row out of the card!](../assets/2023-06-23-using-flutter-flow-to-prototype/6-cant-move-raw-details-after-card.png){: .align-center}
+![I want to move the row out of the card!](../assets/2023-06-23-using-flutter-flow-to-prototype/6-cant-move-raw-details-after-card.png){: .align-center width="400px"}
 
 - This one was probably a bug, but it was frustrating nevertheless. It was super easy to create a toggle-able star icon. But for some reason the toggle value box didn't work. So I couldnt set any value to the toggle. Null values produce an error, and when there is an error anywhere you cant export code from FF. So I cant fix it myself either. So I had to redo the thing as a button and change it to a toggle after exporting. Not fun.
 
-![ToggleIcon is broken](../assets/2023-06-23-using-flutter-flow-to-prototype/7-cant-set-toggleicon-value.png){: .align-center}
+![ToggleIcon is broken](../assets/2023-06-23-using-flutter-flow-to-prototype/7-cant-set-toggleicon-value.png){: .align-center width="400px"}
 
 ### Firestore Limitations
 
-- You will want to overwrite the Firestore deployed by FF, because the rules FF allows you to create are pretty basic (you can't have a rule that matches based on logged in email for example). But after this, FF will forever try to delete your changes, so you cannot deploy rules from FF anymore. You can still copy paste from FF. Just make sure to use the "AFTER" tab. The diff tab oddly doesn't allow you to copy
+- You will want to overwrite the Firestore deployed by FF, because the rules FF allows you to create are pretty basic (you can't have a rule that matches based on logged in email for example). But after this, FF will forever try to delete your changes, so you cannot deploy rules from FF anymore. You can still copy paste from FF. Just make sure to use the "AFTER" tab. The diff tab oddly doesn't allow you to copy text.
 
-![Dont delete my rules!](../assets/2023-06-23-using-flutter-flow-to-prototype/8-dont-delete-my-rules.png){: .align-center}
+![Dont delete my rules!](../assets/2023-06-23-using-flutter-flow-to-prototype/8-dont-delete-my-rules.png){: .align-center width="400px"}
 
 ### Miscellaneous
 
@@ -105,9 +109,10 @@ Generally speaking, I dont have the urge to rewrite all the code so that's a goo
 
 - The styling however is a royal mess of repeated Padding wrappers that I need to clean up. I suspect I could have used Theme Widgets properly to avoid this. But once I setup a Design Libary, the entire UX around theming got too confusing that I gave up. Now I understand it better, but it's a too late to do on FF. I cannot find a way to create a CustomTextInput and do a project-wide find and replace in FF. Maybe I will do it in code later, once I get a deeper understanding of how layout works in Flutter (it seems different from CSS).
 
-![Padding, and more padding](../assets/2023-06-23-using-flutter-flow-to-prototype/10-padding-and-padding.png){: .align-left width="300px"}
+![Padding, and more padding](../assets/2023-06-23-using-flutter-flow-to-prototype/10-padding-and-padding.png){: .align-left width="320px"}
+![Wheeee](../assets/2023-06-23-using-flutter-flow-to-prototype/11-bracket-bracket.png){: .align-right width="320px"}
 
-![Wheeee](../assets/2023-06-23-using-flutter-flow-to-prototype/11-bracket-bracket.png){: .align-right width="300px"}
+{: .cf}
 
 ## Recommendations
 
