@@ -52,20 +52,24 @@ FF does offer some ability to write _custom code_ as functions, but the editor i
 
 ![No Imports](../assets/2023-06-23-using-flutter-flow-to-prototype/1-no-imports.png){: .align-center}
 
-Some examples of when you'd just want to switch to VS Code:
+Below are some examples of when you'd just want to switch to VS Code:
 
-- The flutter flow list views are setup to query firebase using a **single** query, doing a set of map or filter operations on that query and displaying it.
+#### Complex Queries
 
-  - If you have group-by like queries, you need to write a custom function to serve as the data source.
-  - If you want to merge multiple lists to display something, you need to create a container per query which results in a lot of boilerplate code.
+The flutter flow list views are setup to query firebase using a **single** query, doing a set of map or filter operations on that query and displaying it.
 
-![Only one query allowed](../assets/2023-06-23-using-flutter-flow-to-prototype/2-only-one-query.png){: .align-left}
-![Containers for more queries](../assets/2023-06-23-using-flutter-flow-to-prototype/3-create-containers-for-query.png){: .align-right}
+- If you have group-by like queries, you need to write a custom function to serve as the data source.
+- If you want to merge multiple lists to display something, you need to create a container per query which results in a lot of boilerplate code.
 
-- Some fields in the UI don't take values from a variable. It was super easy to get the biomarkers graph up and running. But when I wanted to dynamically generate the number of lines on the graph, you can't do this in FF. The number of lines has to be decided beforehand. You cant even use custom functions for this, you need to edit the component in code.
+![Only one query allowed](../assets/2023-06-23-using-flutter-flow-to-prototype/2-only-one-query.png){: .align-left width="300px"}
+![Containers for more queries](../assets/2023-06-23-using-flutter-flow-to-prototype/3-create-containers-for-query.png){: .align-right width="300px"}
 
-![Hardcoded datasets](../assets/2023-06-23-using-flutter-flow-to-prototype/4-hardcode-num-datasets.png){: .align-left}
-![Hardcoded graph options](../assets/2023-06-23-using-flutter-flow-to-prototype/5-hard-coded-graph-options.png){: .align-right}
+#### Dynamic component paramenters
+
+Some fields in the UI don't take values from a variable. It was super easy to get the biomarkers graph up and running. But when I wanted to dynamically generate the number of lines on the graph, you can't do this in FF. The number of lines has to be decided beforehand. You cant even use custom functions for this, you need to edit the component in code.
+
+![Hardcoded datasets](../assets/2023-06-23-using-flutter-flow-to-prototype/4-hardcode-num-datasets.png){: .align-left width="300px"}
+![Hardcoded graph options](../assets/2023-06-23-using-flutter-flow-to-prototype/5-hard-coded-graph-options.png){: .align-right width="300px"}
 
 > I am not sure why the FF devs didn't simply allow all fields where the datatype is known to be set by a variable. It means no preview sure, but that seems like a fair trade-off.
 
@@ -101,9 +105,9 @@ Generally speaking, I dont have the urge to rewrite all the code so that's a goo
 
 - The styling however is a royal mess of repeated Padding wrappers that I need to clean up. I suspect I could have used Theme Widgets properly to avoid this. But once I setup a Design Libary, the entire UX around theming got too confusing that I gave up. Now I understand it better, but it's a too late to do on FF. I cannot find a way to create a CustomTextInput and do a project-wide find and replace in FF. Maybe I will do it in code later, once I get a deeper understanding of how layout works in Flutter (it seems different from CSS).
 
-![Padding, and more padding](../assets/2023-06-23-using-flutter-flow-to-prototype/10-padding-and-padding.png){: .align-center}
+![Padding, and more padding](../assets/2023-06-23-using-flutter-flow-to-prototype/10-padding-and-padding.png){: .align-left width="300px"}
 
-![Wheeee](../assets/2023-06-23-using-flutter-flow-to-prototype/11-bracket-bracket.png){: .align-center}
+![Wheeee](../assets/2023-06-23-using-flutter-flow-to-prototype/11-bracket-bracket.png){: .align-right width="300px"}
 
 ## Recommendations
 
